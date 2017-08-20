@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "8.1.1",
+    "npm": "5.0.3"
+  },
   "scripts": {
     "format": "prettier --write --single-quote --print-width=120 --parser=flow --tab-width=2 \"*.{js,jsx}\""
   },
