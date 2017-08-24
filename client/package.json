@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint **/*.{js,jsx} --quiet"
+    "lint": "eslint **/*.{js,jsx} --quiet",
+    "build": "NODE_ENV=production webpack -p",
+    "build:dev": "NODE_ENV=development webpack -d",
+    "dev": "webpack-dev-server"
   },
   "dependencies": {
     "axios": "0.16.1",
