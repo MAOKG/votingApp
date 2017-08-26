@@ -2,7 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const router = express.Router();
 const passport = require('passport');
+// ==========================================================
+// Authenticate (First login) ===============================
+// ==========================================================
 
+// locally
+// router.get('auth/local', passport.authenticate)
+
+//google
 router.get(
   '/auth/google',
   passport.authenticate('google', {
