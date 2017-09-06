@@ -36,6 +36,7 @@ const HomeLink = styled(Link)`
 const NavItem = styled.h2`
   font-weight: normal;
   margin: 0;
+  display: inline;
 `;
 
 const NavItemLink = styled.a`
@@ -58,9 +59,14 @@ class Header extends Component {
         return '';
       case false:
         return (
-          <NavItem>
-            <NavItemLink href="/auth/google">Login With Google</NavItemLink>
-          </NavItem>
+          <div>
+            <NavItem>
+              <NavItemLink href="/login">Login</NavItemLink>
+            </NavItem>
+            <NavItem>
+              <NavItemLink href="/signup">Signup</NavItemLink>
+            </NavItem>
+          </div>
         );
       default:
         return (

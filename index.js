@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 const keys = require('./config/keys');
 const User = require('./models/user');
 const passportService = require('./services/passport');
@@ -18,7 +20,8 @@ app.use(
     keys: [keys.cookieKey]
   })
 );
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 

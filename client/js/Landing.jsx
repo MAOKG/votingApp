@@ -15,9 +15,7 @@ const Landing = (props: { user: User }) => {
   }
   return (
     <div>
-      <h1>
-        {utilSpace}
-      </h1>
+      <h1>{utilSpace}</h1>
     </div>
   );
 };

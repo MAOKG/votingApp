@@ -8,6 +8,10 @@ declare var module: {
 
 declare type User = Object | boolean;
 
+export type FormFeedback = {
+  data: Array<> | Object
+};
+
 declare type ActionType = 'SET_USER';
 
 declare type ActionT<A: ActionType, P> = {|
