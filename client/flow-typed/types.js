@@ -8,8 +8,9 @@ declare var module: {
 
 declare type User = Object | boolean;
 
-export type FormFeedback = {
-  data: Array<> | Object
+export type FormRes = {
+  message?: String,
+  user?: User
 };
 
 declare type ActionType = 'SET_USER';

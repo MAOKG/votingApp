@@ -11,7 +11,7 @@ export function fetchUser() {
     axios
       .get('/api/current_user')
       .then(res => {
-        dispatch(setUser(res.data ? res.data : false));
+        dispatch(setUser(res.data.user ? res.data.user : false));
       })
       .catch(error => {
         console.log('axios error', error); // eslint-disable-line no-console

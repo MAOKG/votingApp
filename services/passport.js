@@ -27,24 +27,26 @@ passport.use(
     },
     (req, email, password, done) => {
       const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-      // Server side validation
+      const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/;
+      // Server side form validation
       if (!emailRegExp.test(email)) {
         return done(null, false, req.flash('message', 'Please enter a valid email'));
+      } else if (!passwordRegExp.test(password)) {
+        return done(null, false, req.flash('message', 'Please enter a valid password'));
+      } else {
+        User.findOne({ 'local.email': email }, (err, existingUser) => {
+          if (err) {
+            return done(err);
+          } else if (!existingUser) {
+            return done(null, false, req.flash('message', 'No user found.'));
+          } else if (!existingUser.validPassword(password)) {
+            // access the information passed as the third parameter as req.authInfo.
+            return done(null, false, req.flash('message', 'Incorrect password.'));
+          } else {
+            return done(null, existingUser);
+          }
+        });
       }
-
-      User.findOne({ 'local.email': email }, (err, existingUser) => {
-        if (err) {
-          return done(err);
-        } else if (!existingUser) {
-          return done(null, false, req.flash('message', 'No user found.'));
-        } else if (!existingUser.validPassword(password)) {
-          // access the information passed as the third parameter as req.authInfo.
-          return done(null, false, req.flash('message', 'Incorrect password.'));
-        } else {
-          return done(null, existingUser);
-        }
-      });
     }
   )
 );
@@ -60,10 +62,12 @@ passport.use(
     },
     (req, email, password, done) => {
       const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
+      const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/;
       // Server side form validation
       if (!emailRegExp.test(email)) {
         return done(null, false, req.flash('message', 'Please enter a valid email'));
+      } else if (!passwordRegExp.test(password)) {
+        return done(null, false, req.flash('message', 'Please enter a valid password'));
       } else if (!req.body.firstName) {
         return done(null, false, req.flash('message', 'Please enter a valid firstName'));
       } else if (!req.body.lastName) {

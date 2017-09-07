@@ -11,7 +11,8 @@ const Landing = (props: { user: User }) => {
     utilSpace = 'Please sign in to see votes';
   } else {
     // $FlowFixMe
-    utilSpace = `Welcome to Voting APP ${props.user._id}`; // eslint-disable-line
+    const name = props.user.local ? props.user.local.firstName : props.user.google.name;
+    utilSpace = `Welcome to Voting APP ${name}`;
   }
   return (
     <div>

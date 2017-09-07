@@ -14,7 +14,7 @@ class SignupForm extends Component {
     password: '',
     firstName: '',
     lastName: '',
-    serverErrors: [],
+    serverErrors: '',
     clientErrors: { password: '' },
     isLoading: false
   };
@@ -41,20 +41,19 @@ class SignupForm extends Component {
       });
       axios({
         method: 'post',
-        url: 'auth/signup',
-        // $FlowFixMe
+        url: '/uth/signup',
+        // // $FlowFixMe
         data,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      }).then((res: FormFeedback) => {
-        // $FlowFixMe
-        const id = res.data._id; // eslint-disable-line
-        if (id) {
+      }).then((res: { data: FormRes }) => {
+        if (res.data.user) {
           this.props.getUser();
+        } else if (res.data.message) {
+          this.setState({ isLoading: false, serverErrors: res.data.message });
         } else {
-          // $FlowFixMe
-          this.setState({ isLoading: false, serverErrors: res.data });
+          this.setState({ isLoading: false, serverErrors: 'Fail to sign up, please try again!' });
         }
       });
     }
@@ -63,7 +62,7 @@ class SignupForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onEmailChange = (event: SyntheticInputEvent) => {
-    this.setState({ email: event.target.value, serverErrors: [] });
+    this.setState({ email: event.target.value, serverErrors: '' });
   };
   onPasswordChange = (event: SyntheticInputEvent) => {
     this.setState({ password: event.target.value, clientErrors: { password: '' } });
@@ -79,57 +78,61 @@ class SignupForm extends Component {
     if (this.props.user) {
       this.props.history.push('/');
     }
-    const serverErrors = this.state.serverErrors.length ? this.state.serverErrors[0] : '';
     let formComponent;
     if (this.state.isLoading) {
       formComponent = <Spinner />;
     } else {
       formComponent = (
-        <form onSubmit={this.onSubmit}>
-          <p>{serverErrors}</p>
-          <div>
-            <input
-              type="email"
-              placeholder="email"
-              value={this.state.email}
-              name="email"
-              onChange={this.onEmailChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="first name"
-              value={this.state.firstName}
-              name="firstName"
-              onChange={this.onChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="last name"
-              value={this.state.lastName}
-              name="lastName"
-              onChange={this.onChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="password"
-              value={this.state.password}
-              name="password"
-              onChange={this.onPasswordChange}
-              required
-            />
-            <p>{this.state.clientErrors.password}</p>
-          </div>
-          <button>Sign up</button>
-        </form>
+        <div>
+          <form onSubmit={this.onSubmit}>
+            <p>{this.state.serverErrors}</p>
+            <div>
+              <input
+                type="email"
+                placeholder="email"
+                value={this.state.email}
+                name="email"
+                onChange={this.onEmailChange}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="first name"
+                value={this.state.firstName}
+                name="firstName"
+                onChange={this.onChange}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="last name"
+                value={this.state.lastName}
+                name="lastName"
+                onChange={this.onChange}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="password"
+                value={this.state.password}
+                name="password"
+                onChange={this.onPasswordChange}
+                required
+              />
+              <p>{this.state.clientErrors.password}</p>
+            </div>
+            <button>Sign up</button>
+          </form>
+          <button>
+            <a href="/auth/google">Login with Google</a>
+          </button>
+        </div>
       );
     }
     return <div>{formComponent}</div>;

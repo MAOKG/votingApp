@@ -40,15 +40,15 @@ router.get(
 router.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/api/current_user',
-    failureRedirect: '/fail',
+    successRedirect: 'http://localhost:8080',
+    failureRedirect: 'http://localhost:8080',
     successFlash: true
   })
 );
 
 // Fail
 router.get('/fail', (req, res) => {
-  res.send(req.flash('message'));
+  res.send({ message: req.flash('message')[0] });
 });
 
 // =============================================================================
@@ -90,11 +90,7 @@ router.get('/api/logout', (req, res) => {
 });
 
 router.get('/api/current_user', (req, res) => {
-  res.send(req.user);
-});
-
-router.get('/api/message', (req, res) => {
-  res.send(req.flash('message'));
+  res.send({ user: req.user });
 });
 
 module.exports = router;
