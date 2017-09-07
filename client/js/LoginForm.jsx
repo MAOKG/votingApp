@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
+import { Form, Button, Input, Icon, Message } from 'semantic-ui-react';
+// import styled from 'styled-components';
 import { fetchUser } from './actionCreators';
 import Spinner from './Spinner';
-// import styled from 'styled-components';
 
 class LoginForm extends Component {
   state = {
@@ -26,7 +27,7 @@ class LoginForm extends Component {
       this.setState({
         clientErrors: {
           password:
-            'Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+            'Password should be minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character'
         }
       });
     } else {
@@ -58,7 +59,7 @@ class LoginForm extends Component {
     this.setState({ email: event.target.value, serverErrors: '' });
   };
   onPasswordChange = (event: SyntheticInputEvent) => {
-    this.setState({ password: event.target.value, clientErrors: { password: '' } });
+    this.setState({ password: event.target.value, clientErrors: { password: '' }, serverErrors: '' });
   };
   props: {
     user: User,
@@ -69,6 +70,8 @@ class LoginForm extends Component {
   };
 
   render() {
+    const isWarning = !!this.state.serverErrors;
+    const isError = !!this.state.clientErrors.password;
     if (this.props.user) {
       this.props.history.push('/');
     }
@@ -78,10 +81,17 @@ class LoginForm extends Component {
     } else
       formComponent = (
         <div>
-          <form onSubmit={this.onSubmit}>
-            <p>{this.state.serverErrors}</p>
-            <div>
-              <input
+          <Form warning={isWarning} error={isError} onSubmit={this.onSubmit}>
+            <Message
+              icon="exclamation triangle"
+              header="Login Failed"
+              color="red"
+              warning
+              content={this.state.serverErrors}
+            />
+            <Form.Field>
+              <Input
+                icon="mail outline"
                 type="email"
                 placeholder="email"
                 value={this.state.email}
@@ -89,9 +99,10 @@ class LoginForm extends Component {
                 onChange={this.onEmailChange}
                 required
               />
-            </div>
-            <div>
-              <input
+            </Form.Field>
+            <Form.Field>
+              <Input
+                icon="lock"
                 type="password"
                 placeholder="password"
                 value={this.state.password}
@@ -99,13 +110,16 @@ class LoginForm extends Component {
                 onChange={this.onPasswordChange}
                 required
               />
-              <p>{this.state.clientErrors.password}</p>
-            </div>
-            <button>Login!</button>
-          </form>
-          <button>
-            <a href="/auth/google">Login with Google</a>
-          </button>
+              <Message error content={this.state.clientErrors.password} />
+            </Form.Field>
+            <Button type="submit">Login!</Button>
+          </Form>
+          <a href="/auth/google">
+            <Button link>
+              <Icon name="google" />
+              Login with Google
+            </Button>
+          </a>
         </div>
       );
     return <div>{formComponent}</div>;

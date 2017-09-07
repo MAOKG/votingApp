@@ -1,49 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Menu, Input } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
-
-const Head = styled.header`
-  z-index: 10;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  background-color: #fafafa;
-  padding: 8px 30px;
-`;
-
-const Home = styled.h1`
-  font-family: Skia;
-  font-weight: normal;
-  color: #b10dc9;
-  margin: 0;
-`;
-
-const HomeLink = styled(Link)`
-  color: #b10dc9;
-  text-decoration: none;
-`;
-
-const NavItem = styled.h2`
-  font-weight: normal;
-  margin: 0;
-  display: inline;
-`;
-
-const NavItemLink = styled.a`
-  color: #aaa;
-  text-decoration: none;
-  margin-right: 60px;
-`;
 
 class Header extends Component {
   componentDidMount() {
@@ -59,31 +21,34 @@ class Header extends Component {
         return '';
       case false:
         return (
-          <div>
-            <NavItem>
-              <NavItemLink href="/login">Login</NavItemLink>
-            </NavItem>
-            <NavItem>
-              <NavItemLink href="/signup">Signup</NavItemLink>
-            </NavItem>
-          </div>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Input icon="search" placeholder="Search..." />
+            </Menu.Item>
+            <Menu.Item name="Login" as="a" href="/login" link />
+            <Menu.Item name="Signup" as="a" href="/signup" link />
+          </Menu.Menu>
         );
       default:
         return (
-          <NavItem>
-            <NavItemLink href="/api/logout">Logout</NavItemLink>
-          </NavItem>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Input icon="search" placeholder="Search..." />
+            </Menu.Item>
+            <Menu.Item name="Logout" as="a" href="/api/logout" link />
+          </Menu.Menu>
         );
     }
   }
   render() {
     return (
-      <Head>
-        <Home>
-          <HomeLink to="/">VotingApp</HomeLink>
-        </Home>
+      <Menu secondary>
+        <Menu.Item link>
+          <Link to="/">VotingApp</Link>
+        </Menu.Item>
+
         {this.renderContent()}
-      </Head>
+      </Menu>
     );
   }
 }
