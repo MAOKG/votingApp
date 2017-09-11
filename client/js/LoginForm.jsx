@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
-import { Form, Button, Input, Icon, Message } from 'semantic-ui-react';
+import { Form, Button, Icon, Message, Header, Divider } from 'semantic-ui-react';
 // import styled from 'styled-components';
 import { fetchUser } from './actionCreators';
 import Spinner from './Spinner';
@@ -62,25 +62,20 @@ class LoginForm extends Component {
     this.setState({ password: event.target.value, clientErrors: { password: '' }, serverErrors: '' });
   };
   props: {
-    user: User,
-    getUser: Function,
-    history: {
-      push: Function
-    }
+    getUser: Function
   };
 
   render() {
     const isWarning = !!this.state.serverErrors;
     const isError = !!this.state.clientErrors.password;
-    if (this.props.user) {
-      this.props.history.push('/');
-    }
+
     let formComponent;
     if (this.state.isLoading) {
       formComponent = <Spinner />;
     } else
       formComponent = (
         <div>
+          <Header size="huge" className="modalHeader" content="Log in to continue" />
           <Form warning={isWarning} error={isError} onSubmit={this.onSubmit}>
             <Message
               icon="exclamation triangle"
@@ -90,36 +85,43 @@ class LoginForm extends Component {
               content={this.state.serverErrors}
             />
             <Form.Field>
-              <Input
+              <Form.Input
                 icon="mail outline"
                 type="email"
-                placeholder="email"
+                placeholder="Email Address"
                 value={this.state.email}
                 name="email"
+                size="big"
                 onChange={this.onEmailChange}
                 required
               />
             </Form.Field>
             <Form.Field>
-              <Input
+              <Form.Input
+                error={isError}
                 icon="lock"
                 type="password"
-                placeholder="password"
+                placeholder="Password"
                 value={this.state.password}
                 name="password"
+                size="big"
                 onChange={this.onPasswordChange}
                 required
               />
               <Message error content={this.state.clientErrors.password} />
             </Form.Field>
-            <Button type="submit">Login!</Button>
+            <Button size="big" fluid color="red" type="submit">
+              Log in
+            </Button>
           </Form>
+          <Divider horizontal>or continue with</Divider>
           <a href="/auth/google">
-            <Button link>
+            <Button size="large" fluid basic color="black" link>
               <Icon name="google" />
-              Login with Google
+              Google
             </Button>
           </a>
+          <Divider />
         </div>
       );
     return <div>{formComponent}</div>;

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
+import { Form, Button, Icon, Message, Header, Divider } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
 import Spinner from './Spinner';
 // import styled from 'styled-components';
