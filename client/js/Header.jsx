@@ -5,9 +5,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
-import { Menu, Input, Icon } from 'semantic-ui-react';
+import { Menu, Input, Icon, Container, Button } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
 import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 Modal.setAppElement('#app');
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
@@ -25,6 +26,12 @@ class Header extends Component {
   closeLoginModal = () => {
     this.setState({ loginModal: false });
   };
+  openSignupModal = () => {
+    this.setState({ signupModal: true });
+  };
+  closeSignupModal = () => {
+    this.setState({ signupModal: false });
+  };
   props: {
     user: User,
     getUser: Function
@@ -40,16 +47,60 @@ class Header extends Component {
               <Input icon="search" placeholder="Search..." />
             </Menu.Item>
             <Menu.Item name="Login" onClick={this.openLoginModal} />
-            <Menu.Item name="Signup" as="a" href="/signup" link />
+            <Menu.Item name="Signup" onClick={this.openSignupModal} />
             <Modal
               isOpen={this.state.loginModal}
               onRequestClose={this.closeLoginModal}
               shouldCloseOnOverlayClick
-              className="loginModal"
+              className="Modal"
               contentLabel="Login Modal"
             >
               <Icon link name="close" size="big" onClick={this.closeLoginModal} />
               <LoginForm />
+              <Container textAlign="center">
+                <h4>
+                  Do not have an account?{' '}
+                  <a
+                    className="modalSwitch"
+                    aria-pressed="true"
+                    tabIndex="0"
+                    role="button"
+                    onClick={() => {
+                      this.closeLoginModal();
+                      this.openSignupModal();
+                    }}
+                  >
+                    Sign up
+                  </a>
+                </h4>
+              </Container>
+            </Modal>
+            <Modal
+              isOpen={this.state.signupModal}
+              onRequestClose={this.closeSignupModal}
+              shouldCloseOnOverlayClick
+              className="Modal"
+              contentLabel="Signup Modal"
+            >
+              <Icon link name="close" size="big" onClick={this.closeSignupModal} />
+              <SignupForm />
+              <Container textAlign="center">
+                <h4>
+                  Already have an account?{' '}
+                  <a
+                    className="modalSwitch"
+                    aria-pressed="true"
+                    tabIndex="0"
+                    role="button"
+                    onClick={() => {
+                      this.closeSignupModal();
+                      this.openLoginModal();
+                    }}
+                  >
+                    Log in
+                  </a>
+                </h4>
+              </Container>
             </Modal>
           </Menu.Menu>
         );
