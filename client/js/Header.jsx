@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
-import { Menu, Input, Icon, Container, Button } from 'semantic-ui-react';
+import { Menu, Input, Icon, Container } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -117,7 +117,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <Menu secondary>
+      <Menu size="massive" secondary>
         <Menu.Item link>
           <Link to="/">VotingApp</Link>
         </Menu.Item>

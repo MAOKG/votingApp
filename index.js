@@ -7,8 +7,10 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const keys = require('./config/keys');
 const User = require('./models/user');
+const Poll = require('./models/poll');
 const passportService = require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
+const pollRoutes = require('./routes/pollRoutes');
 const PORT = process.env.PORT || 5000;
 const app = express();
 
@@ -26,6 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authRoutes);
+app.use('/polls', pollRoutes);
 
 app.listen(PORT, () => {
   console.log('Server is running!');
