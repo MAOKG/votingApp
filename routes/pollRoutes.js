@@ -9,14 +9,16 @@ router.use(cors());
 // Index - show all polls
 router.get('/', (req, res) => {
   // Get all polls from DB
-  Poll.find({}, (err, allPolls) => {
-    if (err) {
-      // handle err
-      res.send({ error: err });
-    } else {
-      res.send({ polls: allPolls });
-    }
-  });
+  Poll.find({})
+    .select('title voteNum author postDate')
+    .exec((err, allPolls) => {
+      if (err) {
+        // handle err
+        res.send({ error: err });
+      } else {
+        res.send({ polls: allPolls });
+      }
+    });
 });
 
 // Create a new post
@@ -32,6 +34,7 @@ router.post('/', (req, res) => {
       newPoll.options.push({ name: req.body.options[i], votes: 0 });
     }
     newPoll.peopleVoted = [];
+    newPoll.voteNum = 0;
     newPoll.save(err => {
       if (err) {
         res.send({ error: err });
@@ -89,6 +92,7 @@ router.put('/:id', (req, res) => {
             // User votes existing option
             foundPoll.options[index].votes += 1;
           }
+          foundPoll.voteNum += 1;
           foundPoll.peopleVoted.push(req.user._id);
           foundPoll.save(err => {
             if (err) {

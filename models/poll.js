@@ -25,7 +25,8 @@ const pollSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
     }
-  ]
+  ],
+  voteNum: Number
 });
 
 module.exports = mongoose.model('Poll', pollSchema);
