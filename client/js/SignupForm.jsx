@@ -41,7 +41,7 @@ class SignupForm extends Component {
       });
       axios({
         method: 'post',
-        url: '/auth/signup',
+        url: '/api/auth/signup',
         // // $FlowFixMe
         data,
         headers: {
@@ -78,7 +78,7 @@ class SignupForm extends Component {
       <div>
         <Header className="modalHeader" textAlign="center">
           <Header.Content>
-            Sign up with <a href="/auth/google">Google</a>
+            Sign up with <a href="/api/auth/google">Google</a>
           </Header.Content>
         </Header>
         <Divider horizontal>or</Divider>

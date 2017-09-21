@@ -6,7 +6,7 @@ import querystring from 'querystring';
 import { connect } from 'react-redux';
 import { Form, Button, Icon, Message, Header, Divider, Dimmer, Loader } from 'semantic-ui-react';
 // import styled from 'styled-components';
-import { fetchUser } from './actionCreators';
+import { fetchUser, fetchPollDetail } from './actionCreators';
 
 class LoginForm extends Component {
   state = {
@@ -37,7 +37,7 @@ class LoginForm extends Component {
       });
       axios({
         method: 'post',
-        url: '/auth/login',
+        url: '/api/auth/login',
         // // $FlowFixMe
         data,
         headers: {
@@ -46,6 +46,9 @@ class LoginForm extends Component {
       }).then((res: { data: FormRes }) => {
         if (res.data.user) {
           this.props.getUser();
+          if (this.props.pollID) {
+            this.props.getPollDetail(this.props.pollID);
+          }
         } else if (res.data.message) {
           this.setState({ isLoading: false, serverErrors: res.data.message });
         } else {
@@ -61,7 +64,9 @@ class LoginForm extends Component {
     this.setState({ password: event.target.value, clientErrors: { password: '' }, serverErrors: '' });
   };
   props: {
-    getUser: Function
+    getUser: Function,
+    getPollDetail: Function,
+    pollID: string
   };
 
   render() {
@@ -110,7 +115,7 @@ class LoginForm extends Component {
           </Button>
         </Form>
         <Divider horizontal>or continue with</Divider>
-        <a href="/auth/google">
+        <a href="/api/auth/google">
           <Button size="large" fluid basic color="black" link>
             <Icon name="google" />
             Google
@@ -130,6 +135,9 @@ const mapStateToProps = state => ({ user: state.user });
 const mapDispatchToProps = (dispatch: Function) => ({
   getUser() {
     dispatch(fetchUser());
+  },
+  getPollDetail(pollID) {
+    dispatch(fetchPollDetail(pollID));
   }
 });
 

@@ -4,9 +4,10 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 // import styled from 'styled-components';
 import { Provider } from 'react-redux';
-// import type { Match } from 'react-router-dom';
+import type { Match } from 'react-router-dom';
 import Landing from './Landing';
-import Header from './Header';
+import Polls from './Polls';
+import Details from './Details';
 import store from './store';
 
 const FourOhFour = () => <h1>404</h1>;
@@ -14,9 +15,10 @@ const FourOhFour = () => <h1>404</h1>;
 const App = () => (
   <Provider store={store}>
     <div>
-      <Header />
       <Switch>
         <Route exact path="/" component={Landing} />
+        <Route exact path="/polls" component={Polls} />
+        <Route path="/polls/:id" component={(props: { match: Match }) => <Details id={props.match.params.id} />} />
         <Route component={FourOhFour} />
       </Switch>
     </div>

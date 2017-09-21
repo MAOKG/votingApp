@@ -27,8 +27,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(authRoutes);
-app.use('/polls', pollRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/polls', pollRoutes);
 
 app.listen(PORT, () => {
   console.log('Server is running!');

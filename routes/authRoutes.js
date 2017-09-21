@@ -11,37 +11,37 @@ router.use(cors());
 // Local -----------------------------
 // Login
 router.post(
-  '/auth/login',
+  '/login',
   passport.authenticate('local-login', {
-    successRedirect: '/api/current_user',
-    failureRedirect: '/fail',
+    successRedirect: '/api/auth/current_user',
+    failureRedirect: '/api/auth/fail',
     failureFlash: true
   })
 );
 
 // Signup or link local account
 router.post(
-  '/auth/signup',
+  '/signup',
   passport.authenticate('local-signup', {
-    successRedirect: '/api/current_user',
-    failureRedirect: '/fail',
+    successRedirect: '/api/auth/current_user',
+    failureRedirect: '/api/auth/fail',
     failureFlash: true
   })
 );
 
 //google(authenticate/authorize)
 router.get(
-  '/auth/google',
+  '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email']
   })
 );
 
 router.get(
-  '/auth/google/callback',
+  '/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:8080',
-    failureRedirect: 'http://localhost:8080',
+    successRedirect: 'http://localhost:8080/polls',
+    failureRedirect: 'http://localhost:8080/polls',
     successFlash: true
   })
 );
@@ -62,34 +62,34 @@ router.get('/unlink/local', (req, res) => {
     user.local.email = undefined;
     user.local.password = undefined;
     user.save(err => {
-      res.redirect('http://localhost:8080');
+      res.redirect('http://localhost:8080/polls');
     });
   }
-  res.redirect('http://localhost:8080');
+  res.redirect('http://localhost:8080/polls');
 });
 
 //Google
-router.get('unlink/google', (req, res) => {
+router.get('/unlink/google', (req, res) => {
   var user = req.user;
   if (user && user.local.username) {
     user.google.id = undefined;
     user.google.name = undefined;
     user.save(err => {
-      res.redirect('http://localhost:8080');
+      res.redirect('http://localhost:8080/polls');
     });
   }
-  res.redirect('http://localhost:8080');
+  res.redirect('http://localhost:8080/polls');
 });
 
 // =============================================================================
 // API =============
 // =============================================================================
-router.get('/api/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('http://localhost:8080');
+  res.redirect('http://localhost:8080/polls');
 });
 
-router.get('/api/current_user', (req, res) => {
+router.get('/current_user', (req, res) => {
   res.send({ user: req.user });
 });
 

@@ -20,13 +20,7 @@ const config = {
     publicPath: '/public/',
     historyApiFallback: true,
     proxy: {
-      '/auth/*': {
-        target: 'http://localhost:5000'
-      },
       '/api/*': {
-        target: 'http://localhost:5000'
-      },
-      '/fail/*': {
         target: 'http://localhost:5000'
       }
     }

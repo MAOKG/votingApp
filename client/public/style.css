@@ -1,3 +1,4 @@
+/*Login and Signup form modal*/
 .Modal {
   width: 600px;
   position: absolute;
@@ -26,6 +27,11 @@ a.disabled {
   cursor: default;
 }
 
+/*Polllist*/
+.rightItem {
+  display: block;
+}
+
 @media only screen and (max-width: 700px) {
   .Modal {
     width: 100%;
@@ -33,5 +39,8 @@ a.disabled {
     top: 0;
     left: 0;
     transform: translate(0, 0);
+  }
+  .rightItem {
+    display: none;
   }
 }

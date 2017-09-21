@@ -34,7 +34,8 @@ class Header extends Component {
   };
   props: {
     user: User,
-    getUser: Function
+    getUser: Function,
+    pollID: string
   };
   renderContent() {
     switch (this.props.user) {
@@ -56,7 +57,7 @@ class Header extends Component {
               contentLabel="Login Modal"
             >
               <Icon link name="close" size="big" onClick={this.closeLoginModal} />
-              <LoginForm />
+              <LoginForm pollID={this.props.pollID} />
               <Container textAlign="center">
                 <h4>
                   Do not have an account?{' '}
@@ -110,7 +111,7 @@ class Header extends Component {
             <Menu.Item>
               <Input icon="search" placeholder="Search..." />
             </Menu.Item>
-            <Menu.Item name="Logout" as="a" href="/api/logout" link />
+            <Menu.Item name="Logout" as="a" href="/api/auth/logout" link />
           </Menu.Menu>
         );
     }
