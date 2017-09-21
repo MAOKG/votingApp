@@ -21,7 +21,7 @@ class ShowCard extends Component {
           {this.props.author.name}
         </List.Content>
         <List.Content floated="left">
-          <Label clor="purple" horizontal>
+          <Label color="purple" horizontal>
             {this.props.voteNum}
           </Label>
         </List.Content>

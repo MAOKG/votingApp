@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 import { fetchPollDetail } from './actionCreators';
 import Header from './Header';
+import VotingForm from './VotingForm';
 
 class Details extends Component {
   componentDidMount() {
@@ -15,14 +16,18 @@ class Details extends Component {
   props: {
     id: String,
     pollDetail: PollDetail,
-    user: User,
     getPollDetail: Function
   };
   render() {
     let renderCotent;
     let propID;
     if (this.props.pollDetail) {
-      renderCotent = <h1>{this.props.pollDetail.hasVoted.toString()}</h1>;
+      renderCotent = (
+        <div>
+          <h1>{this.props.pollDetail.hasVoted.toString()}</h1>
+          <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
+        </div>
+      );
       propID = this.props.id;
     } else {
       renderCotent = '';
@@ -43,7 +48,6 @@ class Details extends Component {
 const mapStateToProps = (state, ownProps) => {
   const pollDetail = state.pollDetail[ownProps.id] ? state.pollDetail[ownProps.id] : null;
   return {
-    user: state.user,
     pollDetail
   };
 };
