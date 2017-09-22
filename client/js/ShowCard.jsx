@@ -2,16 +2,16 @@
 
 import React, { Component } from 'react';
 import { Label, List, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class ShowCard extends Component {
   shouldComponentUpdate() {
     return false;
   }
-  props: Poll;
+  props: AbstractPoll;
   render() {
     return (
-      <List.Item as={Link} to={`/polls/${this.props._id}`}>
+      <List.Item as="a" href={`/polls/${this.props._id}`}>
         <List.Content className="rightItem" floated="right">
           <Icon name="time" />
           {new Date(this.props.postDate).toDateString()}

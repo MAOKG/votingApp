@@ -32,6 +32,11 @@ a.disabled {
   display: block;
 }
 
+/*Poll detail voting form*/
+.votingExtraInput {
+  max-width: 500px;
+}
+
 @media only screen and (max-width: 700px) {
   .Modal {
     width: 100%;

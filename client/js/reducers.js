@@ -33,9 +33,7 @@ const allPolls = (state = null, action: Action) => {
 
 const pollDetail = (state = {}, action: Action) => {
   if (action.type === ADD_POLL_DETAIL) {
-    if (!action.payload.error) {
-      return Object.assign({}, state, { [action.payload.poll._id]: action.payload });
-    }
+    return Object.assign({}, state, { [action.payload.poll._id]: action.payload });
   }
   return state;
 };

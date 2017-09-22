@@ -51,7 +51,10 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Poll.findById(req.params.id, (err, foundPoll) => {
     if (err || !foundPoll) {
-      res.send({ error: 'No poll found' });
+      res.send({
+        error: 'No poll found',
+        poll: { _id: req.params.id }
+      });
     } else {
       let resObj = { hasVoted: false, isOwner: false, poll: foundPoll };
       if (req.isAuthenticated()) {

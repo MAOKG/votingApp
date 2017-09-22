@@ -1,6 +1,6 @@
 // @flow
 
-export type Poll = {
+export type AbstractPoll = {
   _id: string,
   title: string,
   author: { name: string },
@@ -8,28 +8,25 @@ export type Poll = {
   voteNum: number
 };
 
+export type Poll = {
+  _id: string,
+  title: string,
+  author: { name: string },
+  postDate: Date,
+  options: Array<Object>,
+  peopleVoted: Array<Object>,
+  voteNum: number
+};
+
 export type Polls = {
-  polls?: Array<Poll>,
+  polls?: Array<AbstractPoll>,
   error?: string
 };
 
 export type PollDetail = {
   hasVoted: boolean,
   isOwner: boolean,
-  poll: {
-    _id: string,
-    title: string,
-    author: { name: string },
-    postDate: Date,
-    options: [
-      {
-        name: string,
-        votes: number
-      }
-    ],
-    peopleVoted: Array<Object>,
-    voteNum: number
-  },
+  poll: Poll,
   error?: string
 };
 
@@ -41,9 +38,14 @@ declare var module: {
 
 declare type User = Object | boolean;
 
-export type FormRes = {
+export type UserFormRes = {
   message?: string,
   user?: User
+};
+
+export type PollFormRes = {
+  error?: string,
+  poll?: Poll
 };
 
 declare type ActionType = 'SET_USER' | 'SET_ALL_POLLS' | 'ADD_POLL_DETAIL' | 'SET_LOGIN_MODAL' | 'SET_SIGNUP_MODAL';

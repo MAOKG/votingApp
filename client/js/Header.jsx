@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
-import { Menu, Input, Icon, Container } from 'semantic-ui-react';
+import { Menu, Icon, Container } from 'semantic-ui-react';
 import { fetchUser, setLoginModal, setSignupModal } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -48,9 +48,6 @@ class Header extends Component {
       case false:
         return (
           <Menu.Menu position="right">
-            <Menu.Item>
-              <Input icon="search" placeholder="Search..." />
-            </Menu.Item>
             <Menu.Item
               name="Login"
               onClick={() => {
@@ -140,9 +137,6 @@ class Header extends Component {
       default:
         return (
           <Menu.Menu position="right">
-            <Menu.Item>
-              <Input icon="search" placeholder="Search..." />
-            </Menu.Item>
             <Menu.Item name="Logout" as="a" href="/api/auth/logout" link />
           </Menu.Menu>
         );
@@ -152,7 +146,7 @@ class Header extends Component {
     return (
       <Menu size="massive" secondary>
         <Menu.Item link>
-          <Link to="/">VotingApp</Link>
+          <Link to="/polls">VotingApp</Link>
         </Menu.Item>
 
         {this.renderContent()}

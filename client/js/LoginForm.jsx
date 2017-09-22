@@ -43,7 +43,7 @@ class LoginForm extends Component {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      }).then((res: { data: FormRes }) => {
+      }).then((res: { data: UserFormRes }) => {
         if (res.data.user) {
           this.props.getUser();
           if (this.props.pollID) {
@@ -52,7 +52,7 @@ class LoginForm extends Component {
         } else if (res.data.message) {
           this.setState({ isLoading: false, serverErrors: res.data.message });
         } else {
-          this.setState({ isLoading: false, serverErrors: 'Fail to sign in, please try again!' });
+          this.setState({ isLoading: false, serverErrors: 'Fail to sign in, please try again later!' });
         }
       });
     }

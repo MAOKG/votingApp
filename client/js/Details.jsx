@@ -2,10 +2,11 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Grid, Header, Dimmer, Loader } from 'semantic-ui-react';
 import { fetchPollDetail } from './actionCreators';
-import Header from './Header';
+import AppHeader from './Header';
 import VotingForm from './VotingForm';
+import Chart from './Chart';
 
 class Details extends Component {
   componentDidMount() {
@@ -21,25 +22,51 @@ class Details extends Component {
   render() {
     let renderCotent;
     let propID;
+    let pollTitle;
+    // = this.props.pollDetail ? this.props.pollDetail.poll.title : '';
     if (this.props.pollDetail) {
-      renderCotent = (
-        <div>
-          <h1>{this.props.pollDetail.hasVoted.toString()}</h1>
-          <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
-        </div>
-      );
-      propID = this.props.id;
+      if (this.props.pollDetail.error) {
+        pollTitle = 'Poll not found';
+        propID = '';
+        renderCotent = '';
+      } else {
+        if (this.props.pollDetail.hasVoted) {
+          renderCotent = <Chart options={this.props.pollDetail.poll.options} />;
+        } else if (this.props.pollDetail.isOwner) {
+          renderCotent = (
+            <div>
+              <Chart options={this.props.pollDetail.poll.options} />
+              <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
+            </div>
+          );
+        } else {
+          renderCotent = (
+            <div>
+              <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
+            </div>
+          );
+        }
+        propID = this.props.id;
+        pollTitle = this.props.pollDetail.poll.title;
+      }
     } else {
       renderCotent = '';
       propID = '';
     }
     return (
       <div>
-        <Header pollID={propID} />
-        <Container>
-          <h1>Welcome to the detail page {this.props.id}</h1>
-          {renderCotent}
-        </Container>
+        <AppHeader pollID={propID} />
+        <Grid centered columns={2}>
+          <Grid.Column>
+            <Header size="huge" textAlign="center">
+              {pollTitle}
+            </Header>
+            {renderCotent}
+          </Grid.Column>
+        </Grid>
+        <Dimmer inverted active={!this.props.pollDetail}>
+          <Loader />
+        </Dimmer>
       </div>
     );
   }

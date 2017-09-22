@@ -47,7 +47,7 @@ class SignupForm extends Component {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      }).then((res: { data: FormRes }) => {
+      }).then((res: { data: UserFormRes }) => {
         if (res.data.user) {
           this.props.getUser();
         } else if (res.data.message) {
