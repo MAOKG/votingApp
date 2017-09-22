@@ -57,6 +57,7 @@ class LoginForm extends Component {
       });
     }
   };
+
   onEmailChange = (event: SyntheticInputEvent) => {
     this.setState({ email: event.target.value, serverErrors: '' });
   };

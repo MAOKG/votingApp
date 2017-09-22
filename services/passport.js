@@ -144,7 +144,7 @@ passport.use(
           // User already logged in, link to google acount
           if (existingUser) {
             // User with the same google account already exsits, return the same user
-            return done(null, req.user, req.flash('message', 'User with the smae google account already exsits'));
+            return done(null, req.user, req.flash('message', 'User with the same google account already exsits'));
           } else {
             // Link to google account
             var user = req.user;

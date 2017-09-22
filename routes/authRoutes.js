@@ -40,8 +40,8 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:8080/polls',
-    failureRedirect: 'http://localhost:8080/polls',
+    successRedirect: 'back',
+    failureRedirect: 'back',
     successFlash: true
   })
 );
