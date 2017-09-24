@@ -3,7 +3,7 @@
 export type AbstractPoll = {
   _id: string,
   title: string,
-  author: { name: string },
+  author: { name: string, id: string },
   postDate: Date,
   voteNum: number
 };
@@ -11,7 +11,7 @@ export type AbstractPoll = {
 export type Poll = {
   _id: string,
   title: string,
-  author: { name: string },
+  author: { name: string, id: string },
   postDate: Date,
   options: Array<Object>,
   peopleVoted: Array<Object>,
@@ -36,7 +36,19 @@ declare var module: {
   }
 };
 
-declare type User = Object | boolean;
+declare type User = {
+  _id: string,
+  local?: {
+    email: String,
+    password: String,
+    firstName: String,
+    lastName: String
+  },
+  google?: {
+    id: String,
+    name: String
+  }
+};
 
 export type UserFormRes = {
   message?: string,

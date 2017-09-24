@@ -1,11 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-// import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
-import { Menu, Icon, Container } from 'semantic-ui-react';
+import { Menu, Icon, Container, Dropdown } from 'semantic-ui-react';
 import { fetchUser, setLoginModal, setSignupModal } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -13,10 +12,6 @@ import SignupForm from './SignupForm';
 Modal.setAppElement('#app');
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Header extends Component {
-  // state = {
-  //   loginModal: false,
-  //   signupModal: false
-  // };
   componentDidMount() {
     this.props.getUser();
   }
@@ -42,6 +37,13 @@ class Header extends Component {
     pollID: string
   };
   renderContent() {
+    let userName;
+    if (this.props.user) {
+      // $FlowFixMe
+      userName = this.props.user.local ? this.props.user.local.firstName : this.props.user.google.name;
+    } else {
+      userName = '';
+    }
     switch (this.props.user) {
       case null:
         return '';
@@ -137,7 +139,18 @@ class Header extends Component {
       default:
         return (
           <Menu.Menu position="right">
-            <Menu.Item name="Logout" as="a" href="/api/auth/logout" link />
+            <Dropdown className="link item" text={userName} pointing>
+              <Dropdown.Menu>
+                <Dropdown.Item>Profile</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/user/polls">
+                  Your Polls
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as="a" href="/api/auth/logout">
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Menu>
         );
     }

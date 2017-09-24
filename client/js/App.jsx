@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import type { Match } from 'react-router-dom';
 import Landing from './Landing';
 import Polls from './Polls';
+import UserPolls from './UserPolls';
 import Details from './Details';
 import store from './store';
 
@@ -19,6 +20,7 @@ const App = () => (
         <Route exact path="/" component={Landing} />
         <Route exact path="/polls" component={Polls} />
         <Route path="/polls/:id" component={(props: { match: Match }) => <Details id={props.match.params.id} />} />
+        <Route path="/user/polls" component={UserPolls} />
         <Route component={FourOhFour} />
       </Switch>
     </div>
