@@ -1,7 +1,14 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import { SET_USER, SET_ALL_POLLS, ADD_POLL_DETAIL, SET_LOGIN_MODAL, SET_SIGNUP_MODAL } from './actions';
+import {
+  SET_USER,
+  SET_ALL_POLLS,
+  ADD_POLL_DETAIL,
+  SET_LOGIN_MODAL,
+  SET_SIGNUP_MODAL,
+  SET_ADD_POLL_MODAL
+} from './actions';
 
 const loginModal = (state = false, action: Action) => {
   if (action.type === SET_LOGIN_MODAL) {
@@ -12,6 +19,13 @@ const loginModal = (state = false, action: Action) => {
 
 const signupModal = (state = false, action: Action) => {
   if (action.type === SET_SIGNUP_MODAL) {
+    return action.payload;
+  }
+  return state;
+};
+
+const addPollModal = (state = false, action: Action) => {
+  if (action.type === SET_ADD_POLL_MODAL) {
     return action.payload;
   }
   return state;
@@ -38,6 +52,6 @@ const pollDetail = (state = {}, action: Action) => {
   return state;
 };
 
-const rootReducer = combineReducers({ user, allPolls, pollDetail, loginModal, signupModal });
+const rootReducer = combineReducers({ user, allPolls, pollDetail, loginModal, signupModal, addPollModal });
 
 export default rootReducer;

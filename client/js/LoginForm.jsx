@@ -117,7 +117,7 @@ class LoginForm extends Component {
         </Form>
         <Divider horizontal>or continue with</Divider>
         <a href="/api/auth/google">
-          <Button size="large" fluid basic color="black" link>
+          <Button size="large" fluid basic color="black">
             <Icon name="google" />
             Google
           </Button>

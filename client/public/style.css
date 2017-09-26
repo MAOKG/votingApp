@@ -28,7 +28,7 @@ a.disabled {
 }
 
 /*Polllist*/
-.rightItem {
+.hideItem {
   display: block;
 }
 
@@ -45,7 +45,7 @@ a.disabled {
     left: 0;
     transform: translate(0, 0);
   }
-  .rightItem {
+  .hideItem {
     display: none;
   }
 }

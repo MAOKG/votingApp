@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import { Menu, Icon, Container, Dropdown } from 'semantic-ui-react';
-import { fetchUser, setLoginModal, setSignupModal } from './actionCreators';
+import { fetchUser, setLoginModal, setSignupModal, setAddPollModal } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import NewPollForm from './NewPollForm';
 
 Modal.setAppElement('#app');
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
@@ -27,11 +28,19 @@ class Header extends Component {
   closeSignupModal = () => {
     this.props.toggleSignupModal(false);
   };
+  openAddPollModal = () => {
+    this.props.toggleAddPollModal(true);
+  };
+  closeAddPollModal = () => {
+    this.props.toggleAddPollModal(false);
+  };
   props: {
     loginModal: boolean,
     signupModal: boolean,
+    addPollModal: boolean,
     toggleLoginModal: Function,
     toggleSignupModal: Function,
+    toggleAddPollModal: Function,
     user: User,
     getUser: Function,
     pollID: string
@@ -139,11 +148,38 @@ class Header extends Component {
       default:
         return (
           <Menu.Menu position="right">
+            <Menu.Item
+              onClick={() => {
+                this.props.toggleAddPollModal(true);
+              }}
+            >
+              <Icon name="plus" />
+              Add Poll
+            </Menu.Item>
+            <Modal
+              isOpen={this.props.addPollModal}
+              onRequestClose={() => {
+                this.props.toggleAddPollModal(false);
+              }}
+              shouldCloseOnOverlayClick
+              className="Modal"
+              contentLabel="AddPoll Modal"
+            >
+              <Icon
+                link
+                name="close"
+                size="big"
+                onClick={() => {
+                  this.props.toggleAddPollModal(false);
+                }}
+              />
+              <NewPollForm />
+            </Modal>
             <Dropdown className="link item" text={userName} pointing>
               <Dropdown.Menu>
                 <Dropdown.Item>Profile</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/user/polls">
-                  Your Polls
+                  My Polls
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item as="a" href="/api/auth/logout">
@@ -157,9 +193,9 @@ class Header extends Component {
   }
   render() {
     return (
-      <Menu size="massive" secondary>
-        <Menu.Item link>
-          <Link to="/polls">VotingApp</Link>
+      <Menu size="massive" stackable>
+        <Menu.Item as={Link} to="/polls">
+          VotingApp
         </Menu.Item>
 
         {this.renderContent()}
@@ -171,7 +207,8 @@ class Header extends Component {
 const mapStateToProps = state => ({
   user: state.user,
   loginModal: state.loginModal,
-  signupModal: state.signupModal
+  signupModal: state.signupModal,
+  addPollModal: state.addPollModal
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -183,6 +220,9 @@ const mapDispatchToProps = (dispatch: Function) => ({
   },
   toggleSignupModal(isOpen: boolean) {
     dispatch(setSignupModal(isOpen));
+  },
+  toggleAddPollModal(isOpen: boolean) {
+    dispatch(setAddPollModal(isOpen));
   }
 });
 

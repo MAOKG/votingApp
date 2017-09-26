@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
       if (err) {
         res.send({ error: err });
       } else {
-        res.send({ success: 'New poll successfully created' });
+        res.send({ poll: newPoll });
       }
     });
   } else {

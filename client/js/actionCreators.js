@@ -1,7 +1,14 @@
 // @flow
 
 import axios from 'axios';
-import { SET_USER, SET_ALL_POLLS, ADD_POLL_DETAIL, SET_LOGIN_MODAL, SET_SIGNUP_MODAL } from './actions';
+import {
+  SET_USER,
+  SET_ALL_POLLS,
+  ADD_POLL_DETAIL,
+  SET_LOGIN_MODAL,
+  SET_SIGNUP_MODAL,
+  SET_ADD_POLL_MODAL
+} from './actions';
 
 export function setLoginModal(isOpen: boolean) {
   return { type: SET_LOGIN_MODAL, payload: isOpen };
@@ -9,6 +16,10 @@ export function setLoginModal(isOpen: boolean) {
 
 export function setSignupModal(isOpen: boolean) {
   return { type: SET_SIGNUP_MODAL, payload: isOpen };
+}
+
+export function setAddPollModal(isOpen: boolean) {
+  return { type: SET_ADD_POLL_MODAL, payload: isOpen };
 }
 
 export function setUser(user: User) {
@@ -19,6 +30,7 @@ export function fetchUser() {
     axios
       .get('/api/auth/current_user')
       .then(res => {
+        // $FlowFixMe
         dispatch(setUser(res.data.user ? res.data.user : false));
       })
       .catch(error => {

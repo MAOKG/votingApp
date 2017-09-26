@@ -12,11 +12,11 @@ class ShowCard extends Component {
   render() {
     return (
       <List.Item as="a" href={`/polls/${this.props._id}`}>
-        <List.Content className="rightItem" floated="right">
+        <List.Content className="hideItem" floated="right">
           <Icon name="time" />
           {new Date(this.props.postDate).toDateString()}
         </List.Content>
-        <List.Content className="rightItem" floated="right">
+        <List.Content className="hideItem" floated="right">
           <Icon name="user" />
           {this.props.author.name}
         </List.Content>

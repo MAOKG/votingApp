@@ -9,11 +9,15 @@ import Header from './Header';
 import { fetchAllPolls } from './actionCreators';
 
 class UserPolls extends Component {
+  state = {
+    error: ''
+  };
   componentDidMount() {
     if (!this.props.userPolls) {
       this.props.getPolls();
     }
   }
+
   props: {
     user: User,
     userPolls: Polls,
@@ -30,7 +34,7 @@ class UserPolls extends Component {
               <List divided size="big" verticalAlign="middle">
                 {this.props.userPolls.polls
                   .filter(poll => poll.author.id === this.props.user._id)
-                  .map(poll => <UserPollCard key={poll._id} {...poll} />)}
+                  .map(poll => <UserPollCard key={poll._id} poll={poll} />)}
               </List>
             </Container>
           );

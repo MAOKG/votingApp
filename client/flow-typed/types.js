@@ -60,7 +60,13 @@ export type PollFormRes = {
   poll?: Poll
 };
 
-declare type ActionType = 'SET_USER' | 'SET_ALL_POLLS' | 'ADD_POLL_DETAIL' | 'SET_LOGIN_MODAL' | 'SET_SIGNUP_MODAL';
+declare type ActionType =
+  | 'SET_USER'
+  | 'SET_ALL_POLLS'
+  | 'ADD_POLL_DETAIL'
+  | 'SET_LOGIN_MODAL'
+  | 'SET_SIGNUP_MODAL'
+  | 'SET_ADD_POLL_MODAL';
 
 declare type ActionT<A: ActionType, P> = {|
   type: A,
@@ -72,4 +78,5 @@ export type Action =
   | ActionT<'SET_ALL_POLLS', Polls>
   | ActionT<'ADD_POLL_DETAIL', PollDetail>
   | ActionT<'SET_LOGIN_MODAL', boolean>
-  | ActionT<'SET_SIGNUP_MODAL', boolean>;
+  | ActionT<'SET_SIGNUP_MODAL', boolean>
+  | ActionT<'SET_ADD_POLL_MODAL', boolean>;
