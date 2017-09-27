@@ -7,7 +7,8 @@ import {
   ADD_POLL_DETAIL,
   SET_LOGIN_MODAL,
   SET_SIGNUP_MODAL,
-  SET_ADD_POLL_MODAL
+  SET_ADD_POLL_MODAL,
+  SET_SEARCH_TERM
 } from './actions';
 
 export function setLoginModal(isOpen: boolean) {
@@ -71,4 +72,8 @@ export function fetchPollDetail(id: string) {
         console.log('axios error', error); // eslint-disable-line no-console
       });
   };
+}
+
+export function setSearchTerm(searchTerm: string) {
+  return { type: SET_SEARCH_TERM, payload: searchTerm };
 }

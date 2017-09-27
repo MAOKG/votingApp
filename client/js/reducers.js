@@ -7,7 +7,8 @@ import {
   ADD_POLL_DETAIL,
   SET_LOGIN_MODAL,
   SET_SIGNUP_MODAL,
-  SET_ADD_POLL_MODAL
+  SET_ADD_POLL_MODAL,
+  SET_SEARCH_TERM
 } from './actions';
 
 const loginModal = (state = false, action: Action) => {
@@ -52,6 +53,13 @@ const pollDetail = (state = {}, action: Action) => {
   return state;
 };
 
-const rootReducer = combineReducers({ user, allPolls, pollDetail, loginModal, signupModal, addPollModal });
+const searchTerm = (state = '', action: Action) => {
+  if (action.type === SET_SEARCH_TERM) {
+    return action.payload;
+  }
+  return state;
+};
+
+const rootReducer = combineReducers({ user, allPolls, pollDetail, loginModal, signupModal, addPollModal, searchTerm });
 
 export default rootReducer;

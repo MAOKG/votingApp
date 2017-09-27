@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Modal from 'react-modal';
-import { Menu, Icon, Container, Dropdown } from 'semantic-ui-react';
-import { fetchUser, setLoginModal, setSignupModal, setAddPollModal } from './actionCreators';
+import { Form, Menu, Icon, Container, Dropdown, Popup } from 'semantic-ui-react';
+import { fetchUser, setLoginModal, setSignupModal, setAddPollModal, setSearchTerm } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import NewPollForm from './NewPollForm';
@@ -13,6 +13,9 @@ import NewPollForm from './NewPollForm';
 Modal.setAppElement('#app');
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Header extends Component {
+  state = {
+    goSearch: false
+  };
   componentDidMount() {
     this.props.getUser();
   }
@@ -34,6 +37,11 @@ class Header extends Component {
   closeAddPollModal = () => {
     this.props.toggleAddPollModal(false);
   };
+
+  goToSearch = (event: SyntheticEvent) => {
+    event.preventDefault();
+    this.setState({ goSearch: true });
+  };
   props: {
     loginModal: boolean,
     signupModal: boolean,
@@ -43,7 +51,9 @@ class Header extends Component {
     toggleAddPollModal: Function,
     user: User,
     getUser: Function,
-    pollID: string
+    pollID: string,
+    searchTerm: string,
+    handleSearchTermChange: Function
   };
   renderContent() {
     let userName;
@@ -148,14 +158,19 @@ class Header extends Component {
       default:
         return (
           <Menu.Menu position="right">
-            <Menu.Item
-              onClick={() => {
-                this.props.toggleAddPollModal(true);
-              }}
-            >
-              <Icon name="plus" />
-              Add Poll
-            </Menu.Item>
+            <Popup
+              trigger={
+                <Menu.Item
+                  onClick={() => {
+                    this.props.toggleAddPollModal(true);
+                  }}
+                >
+                  <Icon name="plus" />
+                </Menu.Item>
+              }
+              content="Add a new poll"
+              position="bottom center"
+            />
             <Modal
               isOpen={this.props.addPollModal}
               onRequestClose={() => {
@@ -194,16 +209,35 @@ class Header extends Component {
     }
   }
   render() {
+    if (this.state.goSearch) {
+      return (
+        <div>
+          <Redirect to="/polls" />
+        </div>
+      );
+    }
     return (
-      <div>
+      <Container fluid>
         <Menu size="massive" stackable secondary>
           <Menu.Item as={Link} to="/polls">
             <Icon name="home" size="large" />
           </Menu.Item>
-
+          <Menu.Item>
+            <Form onSubmit={this.goToSearch}>
+              <Form.Input
+                onChange={this.props.handleSearchTermChange}
+                value={this.props.searchTerm}
+                type="text"
+                size="huge"
+                transparent
+                icon="search"
+                placeholder="Search Polls..."
+              />
+            </Form>
+          </Menu.Item>
           {this.renderContent()}
         </Menu>
-      </div>
+      </Container>
     );
   }
 }
@@ -212,7 +246,8 @@ const mapStateToProps = state => ({
   user: state.user,
   loginModal: state.loginModal,
   signupModal: state.signupModal,
-  addPollModal: state.addPollModal
+  addPollModal: state.addPollModal,
+  searchTerm: state.searchTerm
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -227,6 +262,9 @@ const mapDispatchToProps = (dispatch: Function) => ({
   },
   toggleAddPollModal(isOpen: boolean) {
     dispatch(setAddPollModal(isOpen));
+  },
+  handleSearchTermChange(event) {
+    dispatch(setSearchTerm(event.target.value));
   }
 });
 
