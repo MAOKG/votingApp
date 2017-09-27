@@ -59,26 +59,26 @@ router.get('/fail', (req, res) => {
 router.get('/unlink/local', (req, res) => {
   var user = req.user;
   if (user && user.google.id) {
-    user.local.email = undefined;
-    user.local.password = undefined;
+    user.local = undefined;
     user.save(err => {
-      res.redirect('http://localhost:8080/polls');
+      res.redirect('http://localhost:8080/user/profile');
     });
+  } else {
+    res.redirect('http://localhost:8080/user/profile');
   }
-  res.redirect('http://localhost:8080/polls');
 });
 
 //Google
 router.get('/unlink/google', (req, res) => {
   var user = req.user;
-  if (user && user.local.username) {
-    user.google.id = undefined;
-    user.google.name = undefined;
+  if (user && user.local.email) {
+    user.google = undefined;
     user.save(err => {
-      res.redirect('http://localhost:8080/polls');
+      res.redirect('http://localhost:8080/user/profile');
     });
+  } else {
+    res.redirect('http://localhost:8080/user/profile');
   }
-  res.redirect('http://localhost:8080/polls');
 });
 
 // =============================================================================

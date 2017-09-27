@@ -175,15 +175,17 @@ class Header extends Component {
               />
               <NewPollForm />
             </Modal>
-            <Dropdown className="link item" text={userName} pointing>
+            <Dropdown className="link item" text={userName}>
               <Dropdown.Menu>
-                <Dropdown.Item>Profile</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/user/profile">
+                  My Profile
+                </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/user/polls">
                   My Polls
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item as="a" href="/api/auth/logout">
-                  Logout
+                  <Icon name="log out" />Logout
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -193,13 +195,15 @@ class Header extends Component {
   }
   render() {
     return (
-      <Menu size="massive" stackable>
-        <Menu.Item as={Link} to="/polls">
-          VotingApp
-        </Menu.Item>
+      <div>
+        <Menu size="massive" stackable secondary>
+          <Menu.Item as={Link} to="/polls">
+            <Icon name="home" size="large" />
+          </Menu.Item>
 
-        {this.renderContent()}
-      </Menu>
+          {this.renderContent()}
+        </Menu>
+      </div>
     );
   }
 }

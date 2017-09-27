@@ -66,7 +66,8 @@ declare type ActionType =
   | 'ADD_POLL_DETAIL'
   | 'SET_LOGIN_MODAL'
   | 'SET_SIGNUP_MODAL'
-  | 'SET_ADD_POLL_MODAL';
+  | 'SET_ADD_POLL_MODAL'
+  | 'SET_SEARCH_TERM';
 
 declare type ActionT<A: ActionType, P> = {|
   type: A,
@@ -79,4 +80,5 @@ export type Action =
   | ActionT<'ADD_POLL_DETAIL', PollDetail>
   | ActionT<'SET_LOGIN_MODAL', boolean>
   | ActionT<'SET_SIGNUP_MODAL', boolean>
-  | ActionT<'SET_ADD_POLL_MODAL', boolean>;
+  | ActionT<'SET_ADD_POLL_MODAL', boolean>
+  | ActionT<'SET_SEARCH_TERM', string>;

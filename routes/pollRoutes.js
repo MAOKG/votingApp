@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     // Server side validation
     let newPoll = new Poll();
     newPoll.title = req.body.title;
-    const authorName = req.user.local ? req.user.local.firstName : req.user.google.name;
+    const authorName = req.user.local.firstName ? req.user.local.firstName : req.user.google.name;
     newPoll.author = { id: req.user._id, name: authorName };
     newPoll.options = [];
     for (let i = 0; i < req.body.options.length; i++) {
