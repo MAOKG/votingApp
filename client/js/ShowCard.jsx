@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Label, List, Icon } from 'semantic-ui-react';
-// import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 
 class ShowCard extends Component {
   shouldComponentUpdate() {
@@ -14,7 +14,7 @@ class ShowCard extends Component {
       <List.Item as="a" href={`/polls/${this.props._id}`}>
         <List.Content className="hideItem" floated="right">
           <Icon name="time" />
-          {new Date(this.props.postDate).toDateString()}
+          <Moment fromNow>{new Date(this.props.postDate)}</Moment>
         </List.Content>
         <List.Content className="hideItem" floated="right">
           <Icon name="user" />

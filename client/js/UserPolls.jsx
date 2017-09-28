@@ -52,9 +52,9 @@ class UserPolls extends Component {
       );
     }
     return (
-      <div>
-        <Header />
-        {this.renderContent()}
+      <div className="pageElement">
+        <Header isHome={false} />
+        <div className="pageBody">{this.renderContent()}</div>
         <Dimmer inverted active={!this.props.userPolls}>
           <Loader />
         </Dimmer>

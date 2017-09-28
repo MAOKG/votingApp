@@ -257,16 +257,18 @@ class Profile extends Component {
       );
     }
     return (
-      <div>
-        <Header />
-        <Grid centered columns={2}>
-          <Grid.Column>
-            <Card.Group>
-              {this.localCard()}
-              {this.googleCard()}
-            </Card.Group>
-          </Grid.Column>
-        </Grid>
+      <div className="pageElement">
+        <Header isHome={false} />
+        <div className="pageBody">
+          <Grid centered columns={2}>
+            <Grid.Column>
+              <Card.Group>
+                {this.localCard()}
+                {this.googleCard()}
+              </Card.Group>
+            </Grid.Column>
+          </Grid>
+        </div>
       </div>
     );
   }

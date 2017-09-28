@@ -54,16 +54,18 @@ class Details extends Component {
       propID = '';
     }
     return (
-      <div>
-        <AppHeader pollID={propID} />
-        <Grid centered columns={2}>
-          <Grid.Column>
-            <Header size="huge" textAlign="center">
-              {pollTitle}
-            </Header>
-            {renderCotent}
-          </Grid.Column>
-        </Grid>
+      <div className="pageElement">
+        <AppHeader pollID={propID} isHome={false} />
+        <div className="pageBody">
+          <Grid centered columns={2}>
+            <Grid.Column>
+              <Header size="huge" textAlign="center">
+                {pollTitle}
+              </Header>
+              {renderCotent}
+            </Grid.Column>
+          </Grid>
+        </div>
         <Dimmer inverted active={!this.props.pollDetail}>
           <Loader />
         </Dimmer>

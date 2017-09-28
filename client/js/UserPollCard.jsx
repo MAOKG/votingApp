@@ -36,9 +36,7 @@ class UserPollCard extends Component {
           </Button>
         </List.Content>
         <List.Content floated="left">
-          <Label color="purple" horizontal>
-            {this.props.poll.voteNum}
-          </Label>
+          <Label horizontal>{this.props.poll.voteNum}</Label>
         </List.Content>
         <List.Content>
           <List.Header as="a" href={`/polls/${this.props.poll._id}`}>

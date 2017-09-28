@@ -40,7 +40,9 @@ class Header extends Component {
 
   goToSearch = (event: SyntheticEvent) => {
     event.preventDefault();
-    this.setState({ goSearch: true });
+    if (!this.props.isHome) {
+      this.setState({ goSearch: true });
+    }
   };
   props: {
     loginModal: boolean,
@@ -53,7 +55,8 @@ class Header extends Component {
     getUser: Function,
     pollID: string,
     searchTerm: string,
-    handleSearchTermChange: Function
+    handleSearchTermChange: Function,
+    isHome: boolean
   };
   renderContent() {
     let userName;
@@ -217,27 +220,29 @@ class Header extends Component {
       );
     }
     return (
-      <Container fluid>
-        <Menu size="massive" stackable secondary>
-          <Menu.Item as={Link} to="/polls">
-            <Icon name="home" size="large" />
-          </Menu.Item>
-          <Menu.Item>
-            <Form onSubmit={this.goToSearch}>
-              <Form.Input
-                onChange={this.props.handleSearchTermChange}
-                value={this.props.searchTerm}
-                type="text"
-                size="huge"
-                transparent
-                icon="search"
-                placeholder="Search Polls..."
-              />
-            </Form>
-          </Menu.Item>
-          {this.renderContent()}
-        </Menu>
-      </Container>
+      <div className="headerElement">
+        <Container>
+          <Menu size="massive" stackable secondary>
+            <Menu.Item as={Link} to="/polls">
+              <Icon name="home" size="large" />
+            </Menu.Item>
+            <Menu.Item>
+              <Form onSubmit={this.goToSearch}>
+                <Form.Input
+                  onChange={this.props.handleSearchTermChange}
+                  value={this.props.searchTerm}
+                  type="text"
+                  size="huge"
+                  transparent
+                  icon="search"
+                  placeholder="Search Polls..."
+                />
+              </Form>
+            </Menu.Item>
+            {this.renderContent()}
+          </Menu>
+        </Container>
+      </div>
     );
   }
 }
