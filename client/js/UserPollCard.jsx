@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Label, List, Button } from 'semantic-ui-react';
+import { Label, List, Button, Popup, Icon } from 'semantic-ui-react';
 import { fetchAllPolls } from './actionCreators';
 
 class UserPollCard extends Component {
@@ -31,12 +31,16 @@ class UserPollCard extends Component {
     return (
       <List.Item>
         <List.Content floated="right">
-          <Button basic negative onClick={this.handleDelete}>
-            Delete
-          </Button>
+          <Popup trigger={<Icon name="trash" color="red" link />} on="click" position="top right">
+            <Button basic negative onClick={this.handleDelete}>
+              Delete Poll
+            </Button>
+          </Popup>
         </List.Content>
         <List.Content floated="left">
-          <Label horizontal>{this.props.poll.voteNum}</Label>
+          <Label horizontal circular color="grey">
+            {this.props.poll.voteNum}
+          </Label>
         </List.Content>
         <List.Content>
           <List.Header as="a" href={`/polls/${this.props.poll._id}`}>

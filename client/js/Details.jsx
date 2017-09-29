@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Header, Dimmer, Loader } from 'semantic-ui-react';
+import { Grid, Dimmer, Loader, Container, Icon, Popup } from 'semantic-ui-react';
 import { fetchPollDetail } from './actionCreators';
-import AppHeader from './Header';
+import Header from './Header';
 import VotingForm from './VotingForm';
 import Chart from './Chart';
 
@@ -19,52 +19,97 @@ class Details extends Component {
     pollDetail: PollDetail,
     getPollDetail: Function
   };
+  handleTweet = () => {
+    const height = 420;
+    const width = 550;
+    const left = window.outerWidth / 2 + (window.screenX || window.screenLeft || 0) - width / 2;
+    const top = window.outerHeight / 2 + (window.screenY || window.screenTop || 0) - height / 2;
+    const config = {
+      height,
+      width,
+      left,
+      top,
+      location: 'no',
+      toolbar: 'no',
+      status: 'no',
+      directories: 'no',
+      menubar: 'no',
+      scrollbars: 'yes',
+      resizable: 'no',
+      centerscreen: 'yes',
+      chrome: 'yes'
+    };
+    const windowConfig = Object.keys(config)
+      .map(key => `${key}=${config[key]}`)
+      .join(',');
+    const text = `${this.props.pollDetail.poll.title}, Let's vote at `;
+    const url = `https://votingapp.com/polls/${this.props.pollDetail.poll._id}`;
+    const hashtags = `${this.props.pollDetail.poll.title}, VotingApp`;
+    const tweetObj = { text, url, hashtags };
+    const tweetConfig = Object.keys(tweetObj)
+      .map(key => `${key}=${encodeURIComponent(tweetObj[key])}`)
+      .join('&');
+    window.open(`https://twitter.com/intent/tweet?${tweetConfig}`, 'Tweet Window', windowConfig);
+  };
+
   render() {
-    let renderCotent;
+    let chart;
+    let form;
     let propID;
     let pollTitle;
     // = this.props.pollDetail ? this.props.pollDetail.poll.title : '';
     if (this.props.pollDetail) {
       if (this.props.pollDetail.error) {
-        pollTitle = 'Poll not found';
+        pollTitle = <h1>Poll not found</h1>;
         propID = '';
-        renderCotent = '';
+        chart = '';
+        form = '';
       } else {
         if (this.props.pollDetail.hasVoted) {
-          renderCotent = <Chart options={this.props.pollDetail.poll.options} />;
+          chart = <Chart options={this.props.pollDetail.poll.options} />;
+          form = <h3>You have already voted</h3>;
         } else if (this.props.pollDetail.isOwner) {
-          renderCotent = (
-            <div>
-              <Chart options={this.props.pollDetail.poll.options} />
-              <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
-            </div>
-          );
+          if (this.props.pollDetail.poll.voteNum === 0) {
+            chart = '';
+          } else {
+            chart = <Chart options={this.props.pollDetail.poll.options} />;
+          }
+          form = <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />;
         } else {
-          renderCotent = (
-            <div>
-              <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />
-            </div>
-          );
+          chart = '';
+          form = <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />;
         }
         propID = this.props.id;
-        pollTitle = this.props.pollDetail.poll.title;
+        pollTitle = (
+          <div className="pageHeader">
+            <div className="centerElement">
+              <h1>{this.props.pollDetail.poll.title}</h1>
+            </div>
+            <div className="centerElement tweetButton">
+              <Popup
+                trigger={<Icon name="twitter square" size="large" link onClick={this.handleTweet} />}
+                content="Share on twitter"
+              />
+            </div>
+          </div>
+        );
       }
     } else {
-      renderCotent = '';
+      chart = '';
+      form = '';
       propID = '';
     }
     return (
       <div className="pageElement">
-        <AppHeader pollID={propID} isHome={false} />
+        <Header pollID={propID} isDetail />
         <div className="pageBody">
-          <Grid centered columns={2}>
-            <Grid.Column>
-              <Header size="huge" textAlign="center">
-                {pollTitle}
-              </Header>
-              {renderCotent}
-            </Grid.Column>
-          </Grid>
+          <Container>
+            {pollTitle}
+            <Grid centered columns={1}>
+              <Grid.Column>{chart}</Grid.Column>
+            </Grid>
+            <div className="centerElement">{form}</div>
+          </Container>
         </div>
         <Dimmer inverted active={!this.props.pollDetail}>
           <Loader />

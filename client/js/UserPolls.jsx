@@ -31,6 +31,9 @@ class UserPolls extends Component {
         } else if (this.props.userPolls.polls) {
           return (
             <Container>
+              <div className="centerElement">
+                <h1>My Polls</h1>
+              </div>
               <List divided size="big" verticalAlign="middle">
                 {this.props.userPolls.polls
                   .filter(poll => poll.author.id === this.props.user._id)
@@ -53,7 +56,7 @@ class UserPolls extends Component {
     }
     return (
       <div className="pageElement">
-        <Header isHome={false} />
+        <Header />
         <div className="pageBody">{this.renderContent()}</div>
         <Dimmer inverted active={!this.props.userPolls}>
           <Loader />

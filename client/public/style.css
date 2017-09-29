@@ -1,10 +1,3 @@
-/*.app {
-  background-color: #fafafa;
-  background-size: cover;
-  width: 100%;
-  height: 100vh;
-}*/
-
 /*Login and Signup form modal*/
 .Modal {
   width: 600px;
@@ -38,16 +31,8 @@ a.disabled {
 .hideItem {
   display: block;
 }
-.pollListHeader {
-  float: left;
-  /*  margin-left: 40%;*/
-}
 
-.sortButton {
-  float: right;
-}
-
-.pageButton {
+.centerElement {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,19 +42,33 @@ a.disabled {
   clear: both;
 }
 
+/*Header Element #c0c0c0*/
+.headerElement {
+  /*  border-top: 2px solid grey;*/
+  border-bottom: 2px solid #c0c0c0;
+}
+
+.pageHeader {
+  margin: 20px 0;
+}
+
 /*Poll detail voting form*/
 .votingExtraInput {
   max-width: 500px;
 }
 
-/*Header*/
-.headerElement {
-  border-bottom: 1px solid #c0c0c0;
+.tweetButton {
+  margin-top: 10px;
 }
 
 /*Page Body*/
 .pageBody {
   padding-top: 20px;
+}
+
+/*New Poll Form*/
+.newPollSubmit {
+  float: right;
 }
 
 @media only screen and (max-width: 767px) {

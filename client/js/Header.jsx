@@ -56,7 +56,8 @@ class Header extends Component {
     pollID: string,
     searchTerm: string,
     handleSearchTermChange: Function,
-    isHome: boolean
+    isHome: boolean,
+    isDetail: boolean
   };
   renderContent() {
     let userName;
@@ -219,31 +220,46 @@ class Header extends Component {
         </div>
       );
     }
-    return (
-      <div className="headerElement">
-        <Container>
-          <Menu size="massive" stackable secondary>
-            <Menu.Item as={Link} to="/polls">
-              <Icon name="home" size="large" />
-            </Menu.Item>
-            <Menu.Item>
-              <Form onSubmit={this.goToSearch}>
-                <Form.Input
-                  onChange={this.props.handleSearchTermChange}
-                  value={this.props.searchTerm}
-                  type="text"
-                  size="huge"
-                  transparent
-                  icon="search"
-                  placeholder="Search Polls..."
-                />
-              </Form>
-            </Menu.Item>
-            {this.renderContent()}
-          </Menu>
-        </Container>
-      </div>
+
+    const menuItems = (
+      <Container>
+        <Menu.Item as={Link} to="/polls">
+          <Icon name="home" size="large" />
+        </Menu.Item>
+        <Menu.Item>
+          <Form onSubmit={this.goToSearch}>
+            <Form.Input
+              onChange={this.props.handleSearchTermChange}
+              value={this.props.searchTerm}
+              type="text"
+              size="huge"
+              transparent
+              icon="search"
+              placeholder="Search Polls..."
+            />
+          </Form>
+        </Menu.Item>
+        {this.renderContent()}
+      </Container>
     );
+
+    let menu;
+    if (this.props.isDetail) {
+      menu = (
+        <div className="headerElement">
+          <Menu size="massive" secondary stackable>
+            {menuItems}
+          </Menu>
+        </div>
+      );
+    } else {
+      menu = (
+        <Menu size="massive" secondary stackable inverted color="grey">
+          {menuItems}
+        </Menu>
+      );
+    }
+    return <div>{menu}</div>;
   }
 }
 

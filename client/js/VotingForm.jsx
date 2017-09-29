@@ -81,7 +81,11 @@ class VotingForm extends Component {
           </Button>
         );
       default:
-        return <Button type="submit">Vote</Button>;
+        return (
+          <Button positive type="submit">
+            Vote
+          </Button>
+        );
     }
   }
   render() {
@@ -108,7 +112,7 @@ class VotingForm extends Component {
     const textArea = this.state.isExtraOption ? extraInput : '';
 
     return (
-      <Form error={!!this.state.error} onSubmit={this.onSubmit}>
+      <Form size="massive" error={!!this.state.error} onSubmit={this.onSubmit}>
         <Message error content={this.state.error} />
         {optionRadios}{' '}
         <Form.Field

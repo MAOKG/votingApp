@@ -7,7 +7,7 @@ import ShowCard from './ShowCard';
 import Header from './Header';
 import { fetchAllPolls } from './actionCreators';
 
-const pageSize = 2;
+const pageSize = 10;
 
 class Index extends Component {
   state = {
@@ -57,8 +57,18 @@ class Index extends Component {
         let pageButtons = '';
         if (filterList.length > pageSize) {
           const numbersArray = Array.from({ length: Math.ceil(filterList.length / pageSize) }, (v, i) => i + 1);
+          const filterNumbersArray = numbersArray.filter(num => {
+            if (this.state.pageNum <= 3) {
+              return num <= 5;
+            }
+            if (this.state.pageNum >= numbersArray.length - 2) {
+              return num >= numbersArray.length - 4;
+            }
+
+            return num >= this.state.pageNum - 2 && num <= this.state.pageNum + 2;
+          });
           pageButtons = (
-            <div className="pageButton">
+            <div className="centerElement">
               <Button.Group>
                 <Button
                   basic
@@ -69,7 +79,7 @@ class Index extends Component {
                     }
                   }}
                 />
-                {numbersArray.map(num => (
+                {filterNumbersArray.map(num => (
                   <Button
                     basic={this.state.pageNum !== num}
                     key={`page${num}`}
@@ -108,25 +118,31 @@ class Index extends Component {
         <Header isHome />
         <div className="pageBody">
           <Container>
-            <h1 className="pollListHeader">Explore Polls</h1>
-            <Button.Group className="sortButton" size="mini">
-              <Button
-                basic={this.state.isSortByDate}
-                onClick={() => {
-                  this.setState({ isSortByDate: false });
-                }}
-              >
-                Hottest
-              </Button>
-              <Button
-                basic={!this.state.isSortByDate}
-                onClick={() => {
-                  this.setState({ isSortByDate: true });
-                }}
-              >
-                Newest
-              </Button>
-            </Button.Group>
+            <div className="centerElement pageHeader">
+              <h1>Explore Polls</h1>
+            </div>
+            <div className="centerElement">
+              <Button.Group size="mini">
+                <Button
+                  basic={this.state.isSortByDate}
+                  color="grey"
+                  onClick={() => {
+                    this.setState({ isSortByDate: false });
+                  }}
+                >
+                  Hottest
+                </Button>
+                <Button
+                  basic={!this.state.isSortByDate}
+                  color="grey"
+                  onClick={() => {
+                    this.setState({ isSortByDate: true });
+                  }}
+                >
+                  Newest
+                </Button>
+              </Button.Group>
+            </div>
             <div className="pollList">{renderContent} </div>
           </Container>
         </div>

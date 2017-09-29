@@ -5,7 +5,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Form, Button, Message, Header, Dimmer, Loader } from 'semantic-ui-react';
+import { Form, Button, Message, Header, Dimmer, Loader, Popup } from 'semantic-ui-react';
 import { fetchAllPolls, setAddPollModal } from './actionCreators';
 
 class NewPollForm extends Component {
@@ -113,9 +113,10 @@ class NewPollForm extends Component {
     let deleteButton = '';
     if (this.state.options.length > 2) {
       deleteButton = (
-        <Button size="large" onClick={this.onRemoveOption}>
-          Remove Last Option
-        </Button>
+        <Popup
+          trigger={<Button icon="minus" size="large" onClick={this.onRemoveOption} />}
+          content="Remove last option"
+        />
       );
     }
 
@@ -153,11 +154,9 @@ class NewPollForm extends Component {
               />
             </Form.Field>
           ))}
-          <Button size="large" onClick={this.onAddOption}>
-            Add Another Option
-          </Button>
+          <Popup trigger={<Button icon="plus" size="large" onClick={this.onAddOption} />} content="Add a new option" />
           {deleteButton}
-          <Button type="submit" size="large">
+          <Button primary className="newPollSubmit" type="submit" size="large">
             Create Poll
           </Button>
         </Form>

@@ -258,8 +258,11 @@ class Profile extends Component {
     }
     return (
       <div className="pageElement">
-        <Header isHome={false} />
+        <Header />
         <div className="pageBody">
+          <div className="centerElement pageHeader ">
+            <h1>My Profile</h1>
+          </div>
           <Grid centered columns={2}>
             <Grid.Column>
               <Card.Group>
