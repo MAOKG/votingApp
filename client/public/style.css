@@ -63,10 +63,10 @@ a.disabled {
   border-bottom: 2px solid #c0c0c0;
 }
 
-.Home:hover {
+/*.Home:hover {
   background-color: #767676 !important;
   text-decoration-color: none !important;
-}
+}*/
 
 /*Footer element*/
 .footerContainer {

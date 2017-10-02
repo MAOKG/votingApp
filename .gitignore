@@ -12,3 +12,4 @@ _site/
 *.iml
 .idea/
 dev.js
+prod.js

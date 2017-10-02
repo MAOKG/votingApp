@@ -223,8 +223,8 @@ class Header extends Component {
     // <Icon name="home" size="large" />
     const menuItems = (
       <Container>
-        <Menu.Item as={Link} to="/polls" className="Home">
-          <img src="../public/img/logo4.png" alt="VotingApp" height="30" />
+        <Menu.Item as={Link} to="/polls">
+          <Icon name="home" size="big" />
         </Menu.Item>
         <Menu.Item>
           <Form onSubmit={this.goToSearch}>

@@ -7,17 +7,17 @@ const config = {
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './js/ClientApp.jsx'
+    './client/js/ClientApp.jsx'
   ],
   devtool: 'cheap-eval-source-map',
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'client', 'public'),
     filename: 'bundle.js',
-    publicPath: '/public/'
+    publicPath: '/client/public/'
   },
   devServer: {
     hot: true,
-    publicPath: '/public/',
+    publicPath: '/client/public/',
     historyApiFallback: true,
     proxy: {
       '/api/*': {
@@ -53,7 +53,7 @@ const config = {
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
-  config.entry = './js/ClientApp.jsx';
+  config.entry = './client/js/ClientApp.jsx';
   config.devtool = false;
   config.plugins = [];
 }

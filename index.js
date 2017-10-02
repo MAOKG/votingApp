@@ -1,3 +1,5 @@
+// require('babel-register');
+
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -11,6 +13,7 @@ const Poll = require('./models/poll');
 const passportService = require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 const pollRoutes = require('./routes/pollRoutes');
+
 const PORT = process.env.PORT || 5000;
 const app = express();
 
