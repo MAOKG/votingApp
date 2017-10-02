@@ -7,6 +7,7 @@ import { fetchPollDetail } from './actionCreators';
 import Header from './Header';
 import VotingForm from './VotingForm';
 import Chart from './Chart';
+import Footer from './Footer';
 
 class Details extends Component {
   componentDidMount() {
@@ -57,7 +58,6 @@ class Details extends Component {
     let form;
     let propID;
     let pollTitle;
-    // = this.props.pollDetail ? this.props.pollDetail.poll.title : '';
     if (this.props.pollDetail) {
       if (this.props.pollDetail.error) {
         pollTitle = <h1>Poll not found</h1>;
@@ -101,7 +101,7 @@ class Details extends Component {
     }
     return (
       <div className="pageElement">
-        <Header pollID={propID} isDetail />
+        <Header pollID={propID} />
         <div className="pageBody">
           <Container>
             {pollTitle}
@@ -110,6 +110,9 @@ class Details extends Component {
             </Grid>
             <div className="centerElement">{form}</div>
           </Container>
+        </div>
+        <div>
+          <Footer />
         </div>
         <Dimmer inverted active={!this.props.pollDetail}>
           <Loader />

@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import { Button, Message, Dimmer, Loader, List, Container } from 'semantic-ui-react';
 import ShowCard from './ShowCard';
 import Header from './Header';
+import Footer from './Footer';
 import { fetchAllPolls } from './actionCreators';
 
 const pageSize = 10;
 
 class Index extends Component {
   state = {
-    isSortByDate: false,
+    isSortByDate: true,
     pageNum: 1
   };
   componentDidMount() {
@@ -105,9 +106,11 @@ class Index extends Component {
         }
         renderContent = (
           <div>
-            <List selection size="big" verticalAlign="middle">
-              {paginateList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
-            </List>
+            <div className="listItems">
+              <List selection size="big" verticalAlign="middle">
+                {paginateList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
+              </List>
+            </div>
             {pageButtons}
           </div>
         );
@@ -145,6 +148,9 @@ class Index extends Component {
             </div>
             <div className="pollList">{renderContent} </div>
           </Container>
+        </div>
+        <div>
+          <Footer />
         </div>
         <Dimmer inverted active={!this.props.allPolls}>
           <Loader />

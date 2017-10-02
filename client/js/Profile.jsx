@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import { Icon, Grid, Button, Card, Dimmer, Loader, Form, Message } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
 import Header from './Header';
+import Footer from './Footer';
 
 Modal.setAppElement('#app');
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
@@ -271,6 +272,9 @@ class Profile extends Component {
               </Card.Group>
             </Grid.Column>
           </Grid>
+        </div>
+        <div>
+          <Footer />
         </div>
       </div>
     );

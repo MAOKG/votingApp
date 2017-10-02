@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Message, Dimmer, Loader, List, Container } from 'semantic-ui-react';
 import UserPollCard from './UserPollCard';
 import Header from './Header';
+import Footer from './Footer';
 import { fetchAllPolls } from './actionCreators';
 
 class UserPolls extends Component {
@@ -58,6 +59,9 @@ class UserPolls extends Component {
       <div className="pageElement">
         <Header />
         <div className="pageBody">{this.renderContent()}</div>
+        <div>
+          <Footer />
+        </div>
         <Dimmer inverted active={!this.props.userPolls}>
           <Loader />
         </Dimmer>

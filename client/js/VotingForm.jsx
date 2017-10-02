@@ -101,6 +101,7 @@ class VotingForm extends Component {
     ));
     const extraInput = (
       <Form.Input
+        size="tiny"
         type="text"
         placeholder="Add new option"
         value={this.state.extraOption}

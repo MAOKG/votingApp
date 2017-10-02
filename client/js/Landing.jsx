@@ -1,31 +1,57 @@
 // @flow
 
-import React from 'react';
-// import { connect } from 'react-redux';
-import { Menu, Container } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+// import { Link } from 'react-router-dom';
+import type { RouterHistory } from 'react-router-dom';
+import { Input } from 'semantic-ui-react';
+import { setSearchTerm } from './actionCreators';
 
-const Landing = () => (
-  // let utilSpace;
-  // if (props.user === null) {
-  //   utilSpace = '';
-  // } else if (props.user === false) {
-  //   utilSpace = 'Please sign in to see votes';
-  // } else {
-  //   // $FlowFixMe
-  //   const name = props.user.local ? props.user.local.firstName : props.user.google.name;
-  //   utilSpace = `Welcome to Voting APP ${name}`;
-  // }
-  <Container>
-    <Menu color="grey" inverted secondary stackable>
-      <Menu.Item>HAHA</Menu.Item>
-    </Menu>
-  </Container>
-);
+class Landing extends Component {
+  props: {
+    searchTerm: string,
+    handleSearchTermChange: Function,
+    history: RouterHistory
+  };
+  goToSearch = (event: SyntheticEvent) => {
+    event.preventDefault();
+    this.props.history.push('/polls');
+  };
+  render() {
+    const searchButton = this.props.searchTerm ? 'Search' : 'Browse All';
+    return (
+      <div className="landing">
+        <div id="landing-header">
+          <h1>Welcome to VotingApp!</h1>
+          <form onSubmit={this.goToSearch}>
+            <Input
+              size="huge"
+              action={{ color: 'green', content: searchButton }}
+              onChange={this.props.handleSearchTermChange}
+              value={this.props.searchTerm}
+              type="text"
+              placeholder="Search"
+            />
+          </form>
+        </div>
 
-// Landing.defaultProps = {
-//   user: null
-// };
+        <ul className="slideshow">
+          <li />
+          <li />
+          <li />
+          <li />
+          <li />
+        </ul>
+      </div>
+    );
+  }
+}
 
-// const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ searchTerm: state.searchTerm });
+const mapDispatchToProps = (dispatch: Function) => ({
+  handleSearchTermChange(event) {
+    dispatch(setSearchTerm(event.target.value));
+  }
+});
 
-export default Landing;
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

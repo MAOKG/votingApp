@@ -56,8 +56,7 @@ class Header extends Component {
     pollID: string,
     searchTerm: string,
     handleSearchTermChange: Function,
-    isHome: boolean,
-    isDetail: boolean
+    isHome: boolean
   };
   renderContent() {
     let userName;
@@ -220,11 +219,12 @@ class Header extends Component {
         </div>
       );
     }
-
+    // <img src="../public/img/logo2.png" alt="VotingApp" />
+    // <Icon name="home" size="large" />
     const menuItems = (
       <Container>
-        <Menu.Item as={Link} to="/polls">
-          <Icon name="home" size="large" />
+        <Menu.Item as={Link} to="/polls" className="Home">
+          <img src="../public/img/logo4.png" alt="VotingApp" height="30" />
         </Menu.Item>
         <Menu.Item>
           <Form onSubmit={this.goToSearch}>
@@ -243,22 +243,22 @@ class Header extends Component {
       </Container>
     );
 
-    let menu;
-    if (this.props.isDetail) {
-      menu = (
-        <div className="headerElement">
-          <Menu size="massive" secondary stackable>
-            {menuItems}
-          </Menu>
-        </div>
-      );
-    } else {
-      menu = (
-        <Menu size="massive" secondary stackable inverted color="grey">
-          {menuItems}
-        </Menu>
-      );
-    }
+    // let menu;
+    // if (this.props.isDetail) {
+    //   menu = (
+    //     <div className="headerElement">
+    //       <Menu size="massive" secondary stackable>
+    //         {menuItems}
+    //       </Menu>
+    //     </div>
+    //   );
+    // } else {
+    const menu = (
+      <Menu size="massive" secondary stackable inverted color="grey">
+        {menuItems}
+      </Menu>
+    );
+    // }
     return <div>{menu}</div>;
   }
 }
