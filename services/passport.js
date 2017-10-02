@@ -1,3 +1,5 @@
+/* eslint-disable  consistent-return, no-else-return */
+
 const passport = require('passport');
 const mongoose = require('mongoose');
 const LocalStrategy = require('passport-local').Strategy;
@@ -80,24 +82,24 @@ passport.use(
             return done(null, false, req.flash('message', 'User with this email already exists'));
           } else if (req.user) {
             // if user is logged in, link to a local account
-            let user = req.user;
+            const user = req.user;
             user.local.email = email;
             user.local.password = user.generateHash(password);
             user.local.firstName = req.body.firstName;
             user.local.lastName = req.body.lastName;
-            user.save(err => {
-              if (err) throw err;
+            user.save(error => {
+              if (error) throw error;
               return done(null, user);
             });
           } else {
             // Register a new user
-            let newUser = new User();
+            const newUser = new User();
             newUser.local.email = email;
             newUser.local.password = newUser.generateHash(password);
             newUser.local.firstName = req.body.firstName;
             newUser.local.lastName = req.body.lastName;
-            newUser.save(err => {
-              if (err) throw err;
+            newUser.save(error => {
+              if (error) throw error;
               return done(null, newUser);
             });
           }
@@ -129,33 +131,31 @@ passport.use(
           if (existingUser) {
             return done(null, existingUser);
           }
-          console.log('User is ' + req.user);
+          // console.log(`User is  ${req.user}`);
           // Sign up a new account with google
-          let newUser = new User();
+          const newUser = new User();
           newUser.google.id = profile.id;
           newUser.google.name = profile.displayName;
-          newUser.save(err => {
-            if (err) {
-              throw err;
+          newUser.save(error => {
+            if (error) {
+              throw error;
             }
             return done(null, newUser);
           });
-        } else {
+        } else if (existingUser) {
           // User already logged in, link to google acount
-          if (existingUser) {
-            // User with the same google account already exsits, return the same user
-            return done(null, req.user, req.flash('message', 'User with the same google account already exsits'));
-          } else {
-            // Link to google account
-            var user = req.user;
-            // console.log(user);
-            user.google.id = profile.id;
-            user.google.name = profile.displayName;
-            user.save(err => {
-              if (err) throw err;
-              return done(null, user);
-            });
-          }
+          // User with the same google account already exsits, return the same user
+          return done(null, req.user, req.flash('message', 'User with the same google account already exsits'));
+        } else {
+          // Link to google account
+          const user = req.user;
+          // console.log(user);
+          user.google.id = profile.id;
+          user.google.name = profile.displayName;
+          user.save(error => {
+            if (error) throw error;
+            return done(null, user);
+          });
         }
       });
     }

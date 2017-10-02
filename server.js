@@ -1,16 +1,16 @@
-// require('babel-register');
-
+/* eslint no-console:0 */
+require('babel-register');
 const express = require('express');
-const cors = require('cors');
+require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const keys = require('./config/keys');
-const User = require('./models/user');
-const Poll = require('./models/poll');
-const passportService = require('./services/passport');
+require('./models/user');
+require('./models/poll');
+require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 const pollRoutes = require('./routes/pollRoutes');
 

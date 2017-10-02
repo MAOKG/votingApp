@@ -1,5 +1,7 @@
+/* eslint no-console:0 */
 const express = require('express');
 const cors = require('cors');
+
 const router = express.Router();
 const passport = require('passport');
 
@@ -29,7 +31,7 @@ router.post(
   })
 );
 
-//google(authenticate/authorize)
+// google(authenticate/authorize)
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -57,10 +59,13 @@ router.get('/fail', (req, res) => {
 
 // local
 router.get('/unlink/local', (req, res) => {
-  var user = req.user;
+  const user = req.user;
   if (user && user.google.id) {
     user.local = undefined;
     user.save(err => {
+      if (err) {
+        console.log(err);
+      }
       res.redirect('http://localhost:8080/user/profile');
     });
   } else {
@@ -68,12 +73,15 @@ router.get('/unlink/local', (req, res) => {
   }
 });
 
-//Google
+// Google
 router.get('/unlink/google', (req, res) => {
-  var user = req.user;
+  const user = req.user;
   if (user && user.local.email) {
     user.google = undefined;
     user.save(err => {
+      if (err) {
+        console.log(err);
+      }
       res.redirect('http://localhost:8080/user/profile');
     });
   } else {

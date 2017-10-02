@@ -12,6 +12,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 Modal.setAppElement('#app');
+// $FlowFixMe
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Profile extends Component {
   state = {

@@ -11,6 +11,7 @@ import SignupForm from './SignupForm';
 import NewPollForm from './NewPollForm';
 
 Modal.setAppElement('#app');
+// $FlowFixMe
 Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Header extends Component {
   state = {
