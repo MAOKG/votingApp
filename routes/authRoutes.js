@@ -6,6 +6,10 @@ const router = express.Router();
 const passport = require('passport');
 
 router.use(cors());
+
+const proxyPrefix = '';
+// const proxyPrefix='http://localhost:8080';
+
 // ==========================================================
 // Authenticate/Authorize ===============================
 // ==========================================================
@@ -66,10 +70,10 @@ router.get('/unlink/local', (req, res) => {
       if (err) {
         console.log(err);
       }
-      res.redirect('http://localhost:8080/user/profile');
+      res.redirect(`${proxyPrefix}/user/profile`);
     });
   } else {
-    res.redirect('http://localhost:8080/user/profile');
+    res.redirect(`${proxyPrefix}/user/profile`);
   }
 });
 
@@ -82,10 +86,10 @@ router.get('/unlink/google', (req, res) => {
       if (err) {
         console.log(err);
       }
-      res.redirect('http://localhost:8080/user/profile');
+      res.redirect(`${proxyPrefix}/user/profile`);
     });
   } else {
-    res.redirect('http://localhost:8080/user/profile');
+    res.redirect(`${proxyPrefix}/user/profile`);
   }
 });
 
@@ -94,7 +98,7 @@ router.get('/unlink/google', (req, res) => {
 // =============================================================================
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('http://localhost:8080/polls');
+  res.redirect(`${proxyPrefix}/polls`);
 });
 
 router.get('/current_user', (req, res) => {
