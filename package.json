@@ -8,12 +8,14 @@
     "npm": "5.0.3"
   },
   "scripts": {
+    "start": "node server.js",
     "format": "prettier --write --single-quote --print-width=120 --parser=flow --tab-width=2 \"*.{js,jsx}\"",
     "lint": "eslint **/*.{js,jsx} --quiet",
     "build": "NODE_ENV=production webpack -p",
     "build:dev": "NODE_ENV=development webpack -d",
     "dev": "webpack-dev-server",
-    "prod": "NODE_ENV=production node server.js"
+    "prod": "NODE_ENV=production node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "author": "Maosen Chen",
   "license": "ISC",
