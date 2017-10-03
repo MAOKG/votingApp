@@ -15,7 +15,7 @@
     "build:dev": "NODE_ENV=development webpack -d",
     "dev": "webpack-dev-server",
     "prod": "NODE_ENV=production node server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "heroku-postbuild": "yarn install production=false && yarn build"
   },
   "author": "Maosen Chen",
   "license": "ISC",
