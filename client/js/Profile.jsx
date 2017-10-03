@@ -5,15 +5,13 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Modal from 'react-modal';
-import { Icon, Grid, Button, Card, Dimmer, Loader, Form, Message } from 'semantic-ui-react';
+// import Modal from 'react-modal';
+import { Icon, Grid, Button, Card, Dimmer, Loader, Form, Message, Modal } from 'semantic-ui-react';
 import { fetchUser } from './actionCreators';
 import Header from './Header';
 import Footer from './Footer';
 
-Modal.setAppElement('#app');
 // $FlowFixMe
-Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Profile extends Component {
   state = {
     email: '',
@@ -114,13 +112,10 @@ class Profile extends Component {
             </Button>
 
             <Modal
-              isOpen={this.state.localModal}
-              onRequestClose={() => {
+              open={this.state.localModal}
+              onClose={() => {
                 this.setState({ localModal: false });
               }}
-              shouldCloseOnOverlayClick
-              className="Modal"
-              contentLabel="Signup Modal"
             >
               <Icon
                 link
@@ -130,69 +125,71 @@ class Profile extends Component {
                   this.setState({ localModal: false });
                 }}
               />
-              <Form warning={isWarning} error={isError} onSubmit={this.onSubmit}>
-                <h2 className="modalHeader">Connect local account</h2>
-                <Message
-                  icon="exclamation triangle"
-                  header="Sign Up Failed"
-                  color="red"
-                  warning
-                  content={this.state.serverErrors}
-                />
-                <Form.Field>
-                  <Form.Input
-                    icon="mail outline"
-                    type="email"
-                    placeholder="Email address"
-                    value={this.state.email}
-                    name="email"
-                    size="big"
-                    onChange={this.onEmailChange}
-                    required
+              <div className="Modal">
+                <Form warning={isWarning} error={isError} onSubmit={this.onSubmit}>
+                  <h2 className="modalHeader">Connect local account</h2>
+                  <Message
+                    icon="exclamation triangle"
+                    header="Sign Up Failed"
+                    color="red"
+                    warning
+                    content={this.state.serverErrors}
                   />
-                </Form.Field>
-                <Form.Field>
-                  <Form.Input
-                    icon="user outline"
-                    type="text"
-                    placeholder="First name"
-                    value={this.state.firstName}
-                    name="firstName"
-                    size="big"
-                    onChange={this.onChange}
-                    required
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Form.Input
-                    icon="user outline"
-                    type="text"
-                    placeholder="Last name"
-                    value={this.state.lastName}
-                    name="lastName"
-                    size="big"
-                    onChange={this.onChange}
-                    required
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Form.Input
-                    error={isError}
-                    icon="lock"
-                    type="password"
-                    placeholder="Create a Password"
-                    value={this.state.password}
-                    name="password"
-                    size="big"
-                    onChange={this.onPasswordChange}
-                    required
-                  />
-                  <Message error content={this.state.clientErrors.password} />
-                </Form.Field>
-                <Button size="big" fluid color="red" type="submit">
-                  Sign up local account
-                </Button>
-              </Form>
+                  <Form.Field>
+                    <Form.Input
+                      icon="mail outline"
+                      type="email"
+                      placeholder="Email address"
+                      value={this.state.email}
+                      name="email"
+                      size="big"
+                      onChange={this.onEmailChange}
+                      required
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Form.Input
+                      icon="user outline"
+                      type="text"
+                      placeholder="First name"
+                      value={this.state.firstName}
+                      name="firstName"
+                      size="big"
+                      onChange={this.onChange}
+                      required
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Form.Input
+                      icon="user outline"
+                      type="text"
+                      placeholder="Last name"
+                      value={this.state.lastName}
+                      name="lastName"
+                      size="big"
+                      onChange={this.onChange}
+                      required
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Form.Input
+                      error={isError}
+                      icon="lock"
+                      type="password"
+                      placeholder="Create a Password"
+                      value={this.state.password}
+                      name="password"
+                      size="big"
+                      onChange={this.onPasswordChange}
+                      required
+                    />
+                    <Message error content={this.state.clientErrors.password} />
+                  </Form.Field>
+                  <Button size="big" fluid color="red" type="submit">
+                    Sign up local account
+                  </Button>
+                </Form>
+              </div>
               <Dimmer inverted active={this.state.isLoading}>
                 <Loader />
               </Dimmer>

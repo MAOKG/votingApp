@@ -3,16 +3,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import Modal from 'react-modal';
-import { Form, Menu, Icon, Container, Dropdown, Popup } from 'semantic-ui-react';
+// import Modal from 'react-modal';
+import { Form, Menu, Icon, Container, Dropdown, Popup, Modal } from 'semantic-ui-react';
 import { fetchUser, setLoginModal, setSignupModal, setAddPollModal, setSearchTerm } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import NewPollForm from './NewPollForm';
 
-Modal.setAppElement('#app');
-// $FlowFixMe
-Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 class Header extends Component {
   state = {
     goSearch: false
@@ -86,13 +83,10 @@ class Header extends Component {
               }}
             />
             <Modal
-              isOpen={this.props.loginModal}
-              onRequestClose={() => {
+              open={this.props.loginModal}
+              onClose={() => {
                 this.props.toggleLoginModal(false);
               }}
-              shouldCloseOnOverlayClick
-              className="Modal"
-              contentLabel="Login Modal"
             >
               <Icon
                 link
@@ -102,33 +96,32 @@ class Header extends Component {
                   this.props.toggleLoginModal(false);
                 }}
               />
-              <LoginForm pollID={this.props.pollID} />
-              <Container textAlign="center">
-                <h4>
-                  Do not have an account?{' '}
-                  <a
-                    className="modalSwitch"
-                    aria-pressed="true"
-                    tabIndex="0"
-                    role="button"
-                    onClick={() => {
-                      this.props.toggleLoginModal(false);
-                      this.props.toggleSignupModal(true);
-                    }}
-                  >
-                    Sign up
-                  </a>
-                </h4>
-              </Container>
+              <div className="Modal">
+                <LoginForm pollID={this.props.pollID} />
+                <Container textAlign="center">
+                  <h4>
+                    Do not have an account?{' '}
+                    <a
+                      className="modalSwitch"
+                      aria-pressed="true"
+                      tabIndex="0"
+                      role="button"
+                      onClick={() => {
+                        this.props.toggleLoginModal(false);
+                        this.props.toggleSignupModal(true);
+                      }}
+                    >
+                      Sign up
+                    </a>
+                  </h4>
+                </Container>
+              </div>
             </Modal>
             <Modal
-              isOpen={this.props.signupModal}
-              onRequestClose={() => {
+              open={this.props.signupModal}
+              onClose={() => {
                 this.props.toggleSignupModal(false);
               }}
-              shouldCloseOnOverlayClick
-              className="Modal"
-              contentLabel="Signup Modal"
             >
               <Icon
                 link
@@ -138,24 +131,26 @@ class Header extends Component {
                   this.props.toggleSignupModal(false);
                 }}
               />
-              <SignupForm />
-              <Container textAlign="center">
-                <h4>
-                  Already have an account?{' '}
-                  <a
-                    className="modalSwitch"
-                    aria-pressed="true"
-                    tabIndex="0"
-                    role="button"
-                    onClick={() => {
-                      this.props.toggleSignupModal(false);
-                      this.props.toggleLoginModal(true);
-                    }}
-                  >
-                    Log in
-                  </a>
-                </h4>
-              </Container>
+              <div className="Modal">
+                <SignupForm />
+                <Container textAlign="center">
+                  <h4>
+                    Already have an account?{' '}
+                    <a
+                      className="modalSwitch"
+                      aria-pressed="true"
+                      tabIndex="0"
+                      role="button"
+                      onClick={() => {
+                        this.props.toggleSignupModal(false);
+                        this.props.toggleLoginModal(true);
+                      }}
+                    >
+                      Log in
+                    </a>
+                  </h4>
+                </Container>
+              </div>
             </Modal>
           </Menu.Menu>
         );
@@ -176,13 +171,10 @@ class Header extends Component {
               position="bottom center"
             />
             <Modal
-              isOpen={this.props.addPollModal}
-              onRequestClose={() => {
+              open={this.props.addPollModal}
+              onClose={() => {
                 this.props.toggleAddPollModal(false);
               }}
-              shouldCloseOnOverlayClick
-              className="Modal"
-              contentLabel="AddPoll Modal"
             >
               <Icon
                 link
@@ -192,7 +184,9 @@ class Header extends Component {
                   this.props.toggleAddPollModal(false);
                 }}
               />
-              <NewPollForm />
+              <div className="Modal">
+                <NewPollForm />
+              </div>
             </Modal>
             <Dropdown className="link item" text={userName}>
               <Dropdown.Menu>

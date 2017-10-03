@@ -1,14 +1,14 @@
 /*Login and Signup form modal*/
 .Modal {
-  width: 600px;
+  /*  width: 600px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  outline: none;
+  outline: none;*/
   padding: 25px;
-  overflow: auto;
-  background: white;
+  /*  overflow: auto;
+  background: white;*/
 }
 .modalHeader {
   margin: 20px 0px 30px 0px !important;

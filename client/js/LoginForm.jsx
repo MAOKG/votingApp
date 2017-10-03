@@ -111,13 +111,13 @@ class LoginForm extends Component {
             />
             <Message error content={this.state.clientErrors.password} />
           </Form.Field>
-          <Button size="big" fluid color="red" type="submit">
+          <Button size="big" color="red" fluid type="submit">
             Log in
           </Button>
         </Form>
         <Divider horizontal>or continue with</Divider>
         <a href="/api/auth/google">
-          <Button size="large" fluid basic color="black">
+          <Button size="large" basic fluid color="black">
             <Icon name="google" />
             Google
           </Button>
