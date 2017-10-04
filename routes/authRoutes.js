@@ -7,8 +7,8 @@ const passport = require('passport');
 
 router.use(cors());
 
-const proxyPrefix = '';
-// const proxyPrefix='http://localhost:8080';
+// const proxyPrefix = '';
+const proxyPrefix = 'http://localhost:8080';
 
 // ==========================================================
 // Authenticate/Authorize ===============================

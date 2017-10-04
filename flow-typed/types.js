@@ -15,7 +15,8 @@ export type Poll = {
   postDate: Date,
   options: Array<Object>,
   peopleVoted: Array<Object>,
-  voteNum: number
+  voteNum: number,
+  isUserOption: boolean
 };
 
 export type Polls = {

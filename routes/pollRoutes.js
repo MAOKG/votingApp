@@ -47,6 +47,7 @@ router.post('/', (req, res) => {
     }
     newPoll.peopleVoted = [];
     newPoll.voteNum = 0;
+    newPoll.isUserOption = req.body.isUserOption;
     newPoll.save(err => {
       if (err) {
         res.send({ error: err });
@@ -99,22 +100,26 @@ router.put('/:id', (req, res) => {
       } else {
         // update poll
         const index = foundPoll.options.findIndex(option => option.name === req.body.option);
-        if (index === -1) {
-          // User adds new option
-          foundPoll.options.push({ name: req.body.option, votes: 1 });
+        if (index === -1 && !foundPoll.isUserOption) {
+          res.send({ error: 'You are not allowed to add extra option' });
         } else {
-          // User votes existing option
-          foundPoll.options[index].votes += 1;
-        }
-        foundPoll.voteNum += 1;
-        foundPoll.peopleVoted.push(req.user._id);
-        foundPoll.save(error => {
-          if (error) {
-            res.send({ error });
+          if (index === -1) {
+            // User adds new option
+            foundPoll.options.push({ name: req.body.option, votes: 1 });
           } else {
-            res.send({ poll: foundPoll });
+            // User votes existing option
+            foundPoll.options[index].votes += 1;
           }
-        });
+          foundPoll.voteNum += 1;
+          foundPoll.peopleVoted.push(req.user._id);
+          foundPoll.save(error => {
+            if (error) {
+              res.send({ error });
+            } else {
+              res.send({ poll: foundPoll });
+            }
+          });
+        }
       }
     });
   } else {

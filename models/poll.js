@@ -3,13 +3,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const pollSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   author: {
     id: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     },
-    name: String
+    name: {
+      type: String,
+      required: true
+    }
   },
   postDate: {
     type: Date,
@@ -17,17 +24,31 @@ const pollSchema = new Schema({
   },
   options: [
     {
-      name: String,
-      votes: Number
+      name: {
+        type: String,
+        required: true
+      },
+      votes: {
+        type: Number,
+        required: true
+      }
     }
   ],
   peopleVoted: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     }
   ],
-  voteNum: Number
+  voteNum: {
+    type: Number,
+    required: true
+  },
+  isUserOption: {
+    type: Boolean,
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Poll', pollSchema);

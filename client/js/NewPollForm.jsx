@@ -13,6 +13,7 @@ class NewPollForm extends Component {
     title: '',
     options: ['', ''],
     optionKey: [1, 2],
+    isUserOption: false,
     serverErrors: '',
     clientErrors: '',
     isLoading: false,
@@ -26,7 +27,8 @@ class NewPollForm extends Component {
       this.setState({ isLoading: true });
       const data = querystring.stringify({
         title: this.state.title,
-        options: this.state.options
+        options: this.state.options,
+        isUserOption: this.state.isUserOption
       });
       axios({
         method: 'post',
@@ -154,6 +156,25 @@ class NewPollForm extends Component {
               />
             </Form.Field>
           ))}
+          <Form.Group inline>
+            <label htmlFor="userOption">Can user add new option?</label>
+            <Form.Radio
+              label="Yes"
+              value="yes"
+              checked={this.state.isUserOption === true}
+              onChange={() => {
+                this.setState({ isUserOption: true });
+              }}
+            />
+            <Form.Radio
+              label="No"
+              value="no"
+              checked={!this.state.isUserOption === true}
+              onChange={() => {
+                this.setState({ isUserOption: false });
+              }}
+            />
+          </Form.Group>
           <Popup trigger={<Button icon="plus" size="large" onClick={this.onAddOption} />} content="Add a new option" />
           {deleteButton}
           <Button primary className="newPollSubmit" type="submit" size="large">

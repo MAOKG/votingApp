@@ -64,7 +64,8 @@ class VotingForm extends Component {
     user: User,
     getPollDetail: Function,
     toggleLoginModal: Function,
-    options: Array<Object>
+    options: Array<Object>,
+    isUserOption: boolean
   };
   renderButton() {
     switch (this.props.user) {
@@ -110,12 +111,9 @@ class VotingForm extends Component {
       />
     );
 
-    const textArea = this.state.isExtraOption ? extraInput : '';
-
-    return (
-      <Form size="massive" error={!!this.state.error} onSubmit={this.onSubmit}>
-        <Message error content={this.state.error} />
-        {optionRadios}{' '}
+    let userOption;
+    if (this.props.isUserOption) {
+      userOption = (
         <Form.Field
           key={this.props.id}
           control={Radio}
@@ -124,6 +122,17 @@ class VotingForm extends Component {
           checked={this.state.isExtraOption}
           onChange={this.handleExtraOption}
         />
+      );
+    } else {
+      userOption = '';
+    }
+    const textArea = this.state.isExtraOption ? extraInput : '';
+
+    return (
+      <Form size="massive" error={!!this.state.error} onSubmit={this.onSubmit}>
+        <Message error content={this.state.error} />
+        {optionRadios}
+        {userOption}
         {textArea}
         {this.renderButton()}
       </Form>

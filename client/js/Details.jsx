@@ -44,7 +44,7 @@ class Details extends Component {
       .map(key => `${key}=${config[key]}`)
       .join(',');
     const text = `${this.props.pollDetail.poll.title}, Let's vote at `;
-    const url = `https://votingapp.com/polls/${this.props.pollDetail.poll._id}`;
+    const url = `https://voting-app-react.herokuapp.com/polls/${this.props.pollDetail.poll._id}`;
     const hashtags = `${this.props.pollDetail.poll.title}, VotingApp`;
     const tweetObj = { text, url, hashtags };
     const tweetConfig = Object.keys(tweetObj)
@@ -74,10 +74,22 @@ class Details extends Component {
           } else {
             chart = <Chart options={this.props.pollDetail.poll.options} />;
           }
-          form = <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />;
+          form = (
+            <VotingForm
+              id={this.props.id}
+              options={this.props.pollDetail.poll.options}
+              isUserOption={this.props.pollDetail.poll.isUserOption}
+            />
+          );
         } else {
           chart = '';
-          form = <VotingForm id={this.props.id} options={this.props.pollDetail.poll.options} />;
+          form = (
+            <VotingForm
+              id={this.props.id}
+              options={this.props.pollDetail.poll.options}
+              isUserOption={this.props.pollDetail.poll.isUserOption}
+            />
+          );
         }
         propID = this.props.id;
         pollTitle = (
