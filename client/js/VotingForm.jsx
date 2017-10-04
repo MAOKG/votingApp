@@ -5,7 +5,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { connect } from 'react-redux';
 import { Form, Radio, Button, Message } from 'semantic-ui-react';
-import { fetchPollDetail, setLoginModal } from './actionCreators';
+import { fetchPollDetail, fetchAllPolls, setLoginModal } from './actionCreators';
 
 class VotingForm extends Component {
   state = {
@@ -40,6 +40,7 @@ class VotingForm extends Component {
           }
         }).then((res: { data: PollFormRes }) => {
           if (res.data.poll) {
+            this.props.getPolls();
             this.props.getPollDetail(this.props.id);
           } else if (res.data.error) {
             this.setState({ error: res.data.error, isLoading: false });
@@ -63,6 +64,7 @@ class VotingForm extends Component {
     id: string,
     user: User,
     getPollDetail: Function,
+    getPolls: Function,
     toggleLoginModal: Function,
     options: Array<Object>,
     isUserOption: boolean
@@ -150,6 +152,9 @@ const mapDispatchToProps = (dispatch: Function, ownProps) => ({
   },
   toggleLoginModal(isOpen: boolean) {
     dispatch(setLoginModal(isOpen));
+  },
+  getPolls() {
+    dispatch(fetchAllPolls());
   }
 });
 
