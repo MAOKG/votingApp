@@ -1,6 +1,6 @@
-# Voting App Web Application
+# Voting App Web Application [Demo](https://voting-app-react.herokuapp.com)
 
-> This is a MERN stack application that allow users to create users to vote and create their own voting polls
+> This is a MERN stack application that allow users to vote and create their own voting polls
 
 ## User Stories
 
@@ -18,6 +18,8 @@
 - As an authenticated user, I can see the result of a poll in chart form after I voted
 
 ## Build With
+
+*Server Side Rendering*: server-side prerender code so that when it gets down to the client, browser can instantly show the markup while app bootstraps in the background. It makes everything feel very instantaneous
 
 ### Front End
 - [React](https://reactjs.org/) - The Javascript library used
