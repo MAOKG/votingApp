@@ -45,7 +45,7 @@ class Details extends Component {
       .join(',');
     const text = `${this.props.pollDetail.poll.title}, Let's vote at `;
     const url = `https://voting-app-react.herokuapp.com/polls/${this.props.pollDetail.poll._id}`;
-    const hashtags = `${this.props.pollDetail.poll.title}, VotingApp`;
+    const hashtags = 'VotingApp';
     const tweetObj = { text, url, hashtags };
     const tweetConfig = Object.keys(tweetObj)
       .map(key => `${key}=${encodeURIComponent(tweetObj[key])}`)
