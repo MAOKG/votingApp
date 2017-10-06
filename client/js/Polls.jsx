@@ -2,17 +2,20 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Message, Dimmer, Loader, List, Container } from 'semantic-ui-react';
+import { Button, Message, List, Container, Input, Menu, Segment } from 'semantic-ui-react';
 import ShowCard from './ShowCard';
 import Header from './Header';
 import Footer from './Footer';
-import { fetchAllPolls } from './actionCreators';
+import { fetchAllPolls, setSearchTerm, setAddPollModal, setLoginModal } from './actionCreators';
 
 const pageSize = 10;
 
 class Index extends Component {
   state = {
-    isSortByDate: true,
+    searchLoading: false,
+    searchResults: [],
+    searchValue: '',
+    isSortByDate: false,
     pageNum: 1
   };
   componentDidMount() {
@@ -21,9 +24,13 @@ class Index extends Component {
     }
   }
   props: {
+    user: User,
     allPolls: Polls,
     getPolls: Function,
-    searchTerm: string // eslint-disable-line react/no-unused-prop-types
+    searchTerm: string,
+    handleSearchTermChange: Function,
+    toggleLoginModal: Function,
+    toggleAddPollModal: Function
   };
 
   sortPollList(pollList) {
@@ -46,10 +53,10 @@ class Index extends Component {
       if (this.props.allPolls.error) {
         renderContent = <Message error content={this.props.allPolls.error} />;
       } else if (this.props.allPolls.polls) {
-        let pollList = this.props.allPolls.polls;
+        let pollList = this.props.allPolls.polls.slice();
         pollList = this.sortPollList(pollList);
         const filterList = pollList.filter(
-          poll => `${poll.title} ${poll.author.name}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0
+          poll => `${poll.title}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0
         );
         const paginateList = this.paginate(filterList);
         if (paginateList.length === 0 && filterList.length > 0) {
@@ -104,16 +111,72 @@ class Index extends Component {
             </div>
           );
         }
-        renderContent = (
-          <div>
-            <div className="listItems">
-              <List selection size="big" verticalAlign="middle">
-                {paginateList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
-              </List>
+
+        let noPollButton;
+        if (!this.props.user) {
+          noPollButton = (
+            <h2>
+              {' '}
+              No polls found,{' '}
+              <a
+                className="modalSwitch"
+                aria-pressed="true"
+                tabIndex="0"
+                role="button"
+                onClick={() => {
+                  this.props.toggleLoginModal(true);
+                }}
+              >
+                log in
+              </a>{' '}
+              to create one
+            </h2>
+          );
+        } else {
+          noPollButton = (
+            <h2>
+              {' '}
+              No polls found, click{' '}
+              <a
+                className="modalSwitch"
+                aria-pressed="true"
+                tabIndex="0"
+                role="button"
+                onClick={() => {
+                  this.props.toggleAddPollModal(true);
+                }}
+              >
+                here
+              </a>{' '}
+              to create one
+            </h2>
+          );
+        }
+        if (filterList.length < 1) {
+          renderContent = (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 450
+              }}
+            >
+              {noPollButton}
             </div>
-            {pageButtons}
-          </div>
-        );
+          );
+        } else {
+          renderContent = (
+            <div>
+              <div className="listItems">
+                <List selection size="big" verticalAlign="middle">
+                  {paginateList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
+                </List>
+              </div>
+              {pageButtons}
+            </div>
+          );
+        }
       }
     }
     return (
@@ -124,43 +187,56 @@ class Index extends Component {
             <div className="centerElement pageHeader">
               <h1>Explore Polls</h1>
             </div>
-            <div className="centerElement">
-              <Button.Group size="mini">
-                <Button
-                  basic={this.state.isSortByDate}
-                  color="grey"
-                  onClick={() => {
+            <Menu attached="top" tabular>
+              <Menu.Item
+                name="Hottest"
+                active={!this.state.isSortByDate}
+                onClick={() => {
+                  if (this.state.isSortByDate) {
                     this.setState({ isSortByDate: false });
-                  }}
-                >
-                  Hottest
-                </Button>
-                <Button
-                  basic={!this.state.isSortByDate}
-                  color="grey"
-                  onClick={() => {
+                    this.setState({ pageNum: 1 });
+                  }
+                }}
+              />
+              <Menu.Item
+                name="Newest"
+                active={this.state.isSortByDate}
+                onClick={() => {
+                  if (!this.state.isSortByDate) {
                     this.setState({ isSortByDate: true });
-                  }}
-                >
-                  Newest
-                </Button>
-              </Button.Group>
-            </div>
-            <div className="pollList">{renderContent} </div>
+                    this.setState({ pageNum: 1 });
+                  }
+                }}
+              />
+              <Menu.Menu position="right">
+                <Menu.Item>
+                  <Input
+                    transparent
+                    onChange={this.props.handleSearchTermChange}
+                    value={this.props.searchTerm}
+                    type="text"
+                    size="huge"
+                    icon="search"
+                    placeholder="Search Polls..."
+                  />
+                </Menu.Item>
+              </Menu.Menu>
+            </Menu>
+            <Segment attached="bottom" loading={!this.props.allPolls}>
+              <div className="pollList">{renderContent} </div>
+            </Segment>
           </Container>
         </div>
         <div>
           <Footer />
         </div>
-        <Dimmer inverted active={!this.props.allPolls}>
-          <Loader />
-        </Dimmer>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  user: state.user,
   allPolls: state.allPolls,
   searchTerm: state.searchTerm
 });
@@ -168,6 +244,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch: Function) => ({
   getPolls() {
     dispatch(fetchAllPolls());
+  },
+  handleSearchTermChange(event) {
+    dispatch(setSearchTerm(event.target.value));
+  },
+  toggleAddPollModal(isOpen: boolean) {
+    dispatch(setAddPollModal(isOpen));
+  },
+  toggleLoginModal(isOpen: boolean) {
+    dispatch(setLoginModal(isOpen));
   }
 });
 

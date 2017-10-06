@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
-import { Search, Menu, Container, Header, Button, Form, List } from 'semantic-ui-react';
+import { Search, Menu, Container, Header, Button, Form, List, Segment } from 'semantic-ui-react';
 import { setSearchTerm, fetchAllPolls } from './actionCreators';
 import AppHeader from './Header';
 import ShowCard from './ShowCard';
@@ -64,7 +64,8 @@ class Landing extends Component {
       const pollList = this.props.allPolls && this.props.allPolls.polls ? this.props.allPolls.polls : [];
       const filterList = pollList
         .filter(poll => `${poll.title}`.toUpperCase().indexOf(this.state.searchValue.toUpperCase()) >= 0)
-        .map(poll => (({ title, voteNum }) => ({ title, price: `${voteNum} votes` }))(poll));
+        .map(poll => (({ title, voteNum }) => ({ title, price: `${voteNum} votes` }))(poll))
+        .slice(0, 10);
 
       return this.setState({
         searchLoading: false,
@@ -73,7 +74,6 @@ class Landing extends Component {
     }, 500);
   };
   handleResultSelect = (event, { result }) => this.setState({ searchValue: result.title });
-  handleItemClick = (event, { name }) => this.setState({ sort: name });
   sortPollList(pollList) {
     return pollList.sort((a, b) => {
       if (this.state.sort === 'New') {
@@ -90,9 +90,9 @@ class Landing extends Component {
     } else {
       pollList = this.props.allPolls.polls.slice();
       if (this.state.sort === 'Random') {
-        pollList = shuffle(pollList).slice(0, 5);
+        pollList = shuffle(pollList).slice(0, 10);
       } else {
-        pollList = this.sortPollList(pollList).slice(0, 5);
+        pollList = this.sortPollList(pollList).slice(0, 10);
       }
     }
 
@@ -139,16 +139,40 @@ class Landing extends Component {
         </div>
         <Menu pointing secondary color="grey" style={{ marginTop: '0px' }}>
           <Container>
-            <Menu.Item name="Popular" active={this.state.sort === 'Popular'} onClick={this.handleItemClick} />
-            <Menu.Item name="New" active={this.state.sort === 'New'} onClick={this.handleItemClick} />
-            <Menu.Item name="Random" active={this.state.sort === 'Random'} onClick={this.handleItemClick} />
+            <Menu.Item
+              name="Popular"
+              active={this.state.sort === 'Popular'}
+              onClick={() => {
+                if (this.state.sort !== 'Popular') {
+                  this.setState({ sort: 'Popular' });
+                }
+              }}
+            />
+            <Menu.Item
+              name="New"
+              active={this.state.sort === 'New'}
+              onClick={() => {
+                if (this.state.sort !== 'New') {
+                  this.setState({ sort: 'New' });
+                }
+              }}
+            />
+            <Menu.Item
+              name="Random"
+              active={this.state.sort === 'Random'}
+              onClick={() => {
+                this.setState({ sort: 'Random' });
+              }}
+            />
           </Container>
         </Menu>
-        <Container className="pageBody">
-          <List selection size="big" verticalAlign="middle">
-            {pollList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
-          </List>
-        </Container>
+        <Segment basic style={{ marginTop: '-30px' }} loading={!this.props.allPolls}>
+          <Container className="pageBody">
+            <List selection size="big" verticalAlign="middle">
+              {pollList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
+            </List>
+          </Container>
+        </Segment>
         <Footer />
       </div>
     );

@@ -102,7 +102,7 @@ router.get('/unlink/google', (req, res) => {
 // =============================================================================
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect(`${proxyPrefix}/polls`);
+  res.redirect(`${proxyPrefix}`);
 });
 
 router.get('/current_user', (req, res) => {

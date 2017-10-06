@@ -2,18 +2,15 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import Modal from 'react-modal';
-import { Form, Menu, Icon, Container, Dropdown, Popup, Modal } from 'semantic-ui-react';
-import { fetchUser, setLoginModal, setSignupModal, setAddPollModal, setSearchTerm } from './actionCreators';
+import { Menu, Icon, Container, Dropdown, Popup, Modal } from 'semantic-ui-react';
+import { fetchUser, setLoginModal, setSignupModal, setAddPollModal } from './actionCreators';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import NewPollForm from './NewPollForm';
 
 class Header extends Component {
-  state = {
-    goSearch: false
-  };
   componentDidMount() {
     this.props.getUser();
   }
@@ -36,10 +33,6 @@ class Header extends Component {
     this.props.toggleAddPollModal(false);
   };
 
-  goToSearch = (event: SyntheticEvent) => {
-    event.preventDefault();
-    this.setState({ goSearch: true });
-  };
   props: {
     loginModal: boolean,
     signupModal: boolean,
@@ -50,9 +43,6 @@ class Header extends Component {
     user: User,
     getUser: Function,
     pollID: string,
-    searchTerm: string,
-    handleSearchTermChange: Function,
-    noSearch: boolean,
     isLanding: boolean
   };
   renderContent() {
@@ -206,38 +196,14 @@ class Header extends Component {
     }
   }
   render() {
-    if (this.state.goSearch) {
-      return (
-        <div>
-          <Redirect to="/polls" />
-        </div>
-      );
-    }
-
-    let searchBar = '';
-    if (!this.props.noSearch) {
-      searchBar = (
-        <Menu.Item>
-          <Form onSubmit={this.goToSearch}>
-            <Form.Input
-              onChange={this.props.handleSearchTermChange}
-              value={this.props.searchTerm}
-              type="text"
-              size="huge"
-              transparent
-              icon="search"
-              placeholder="Search Polls..."
-            />
-          </Form>
-        </Menu.Item>
-      );
-    }
     const menuItems = (
       <Container>
-        <Menu.Item as={Link} to="/polls">
+        <Menu.Item as={Link} to="/">
           <Icon name="home" size="big" />
         </Menu.Item>
-        {searchBar}
+        <Menu.Item as={Link} to="/polls">
+          Polls
+        </Menu.Item>
         {this.renderContent()}
       </Container>
     );
@@ -266,8 +232,7 @@ const mapStateToProps = state => ({
   user: state.user,
   loginModal: state.loginModal,
   signupModal: state.signupModal,
-  addPollModal: state.addPollModal,
-  searchTerm: state.searchTerm
+  addPollModal: state.addPollModal
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -282,9 +247,6 @@ const mapDispatchToProps = (dispatch: Function) => ({
   },
   toggleAddPollModal(isOpen: boolean) {
     dispatch(setAddPollModal(isOpen));
-  },
-  handleSearchTermChange(event) {
-    dispatch(setSearchTerm(event.target.value));
   }
 });
 
