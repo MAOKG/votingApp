@@ -118,7 +118,7 @@ class Index extends Component {
     }
     return (
       <div className="pageElement">
-        <Header isHome />
+        <Header noSearch />
         <div className="pageBody">
           <Container>
             <div className="centerElement pageHeader">

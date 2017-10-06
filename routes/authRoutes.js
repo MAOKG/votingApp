@@ -7,8 +7,12 @@ const passport = require('passport');
 
 router.use(cors());
 
-const proxyPrefix = '';
-// const proxyPrefix = 'http://localhost:8080';
+let proxyPrefix;
+if (process.env.NODE_ENV === 'production') {
+  proxyPrefix = '';
+} else {
+  proxyPrefix = 'http://localhost:8080';
+}
 
 // ==========================================================
 // Authenticate/Authorize ===============================

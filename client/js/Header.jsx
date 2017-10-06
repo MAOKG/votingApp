@@ -38,9 +38,7 @@ class Header extends Component {
 
   goToSearch = (event: SyntheticEvent) => {
     event.preventDefault();
-    if (!this.props.isHome) {
-      this.setState({ goSearch: true });
-    }
+    this.setState({ goSearch: true });
   };
   props: {
     loginModal: boolean,
@@ -54,7 +52,8 @@ class Header extends Component {
     pollID: string,
     searchTerm: string,
     handleSearchTermChange: Function,
-    isHome: boolean
+    noSearch: boolean,
+    isLanding: boolean
   };
   renderContent() {
     let userName;
@@ -214,13 +213,10 @@ class Header extends Component {
         </div>
       );
     }
-    // <img src="../public/img/logo2.png" alt="VotingApp" />
-    // <Icon name="home" size="large" />
-    const menuItems = (
-      <Container>
-        <Menu.Item as={Link} to="/polls">
-          <Icon name="home" size="big" />
-        </Menu.Item>
+
+    let searchBar = '';
+    if (!this.props.noSearch) {
+      searchBar = (
         <Menu.Item>
           <Form onSubmit={this.goToSearch}>
             <Form.Input
@@ -234,26 +230,34 @@ class Header extends Component {
             />
           </Form>
         </Menu.Item>
+      );
+    }
+    const menuItems = (
+      <Container>
+        <Menu.Item as={Link} to="/polls">
+          <Icon name="home" size="big" />
+        </Menu.Item>
+        {searchBar}
         {this.renderContent()}
       </Container>
     );
 
-    // let menu;
-    // if (this.props.isDetail) {
-    //   menu = (
-    //     <div className="headerElement">
-    //       <Menu size="massive" secondary stackable>
-    //         {menuItems}
-    //       </Menu>
-    //     </div>
-    //   );
-    // } else {
-    const menu = (
-      <Menu size="massive" secondary stackable inverted color="grey">
-        {menuItems}
-      </Menu>
-    );
-    // }
+    let menu;
+    if (this.props.isLanding) {
+      menu = (
+        <div className="headerElement">
+          <Menu size="massive" secondary inverted>
+            {menuItems}
+          </Menu>
+        </div>
+      );
+    } else {
+      menu = (
+        <Menu size="massive" secondary inverted color="grey">
+          {menuItems}
+        </Menu>
+      );
+    }
     return <div>{menu}</div>;
   }
 }
