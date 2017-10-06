@@ -9,7 +9,7 @@ router.use(cors());
 
 let proxyPrefix;
 if (process.env.NODE_ENV === 'production') {
-  proxyPrefix = '';
+  proxyPrefix = '/';
 } else {
   proxyPrefix = 'http://localhost:8080';
 }

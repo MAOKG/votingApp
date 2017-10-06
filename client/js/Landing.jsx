@@ -90,7 +90,7 @@ class Landing extends Component {
     } else {
       pollList = this.props.allPolls.polls.slice();
       if (this.state.sort === 'Random') {
-        pollList = shuffle(pollList).slice(0, 10);
+        pollList = shuffle(pollList).slice(0, 5);
       } else {
         pollList = this.sortPollList(pollList).slice(0, 10);
       }
@@ -166,8 +166,8 @@ class Landing extends Component {
             />
           </Container>
         </Menu>
-        <Segment basic style={{ marginTop: '-30px' }} loading={!this.props.allPolls}>
-          <Container className="pageBody">
+        <Segment basic style={{ marginTop: '-30px' }} loading={!this.props.allPolls} className="pageBody">
+          <Container>
             <List selection size="big" verticalAlign="middle">
               {pollList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
             </List>
