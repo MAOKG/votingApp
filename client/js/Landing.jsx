@@ -4,16 +4,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
-import { Search, Segment, Container, Header, Button, Form } from 'semantic-ui-react';
+import { Search, Menu, Container, Header, Button, Form, List } from 'semantic-ui-react';
 import { setSearchTerm, fetchAllPolls } from './actionCreators';
 import AppHeader from './Header';
+import ShowCard from './ShowCard';
+import Footer from './Footer';
+
+const shuffle = pollList => {
+  const array = pollList.slice();
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
 
 class Landing extends Component {
   state = {
     searchLoading: false,
     searchResults: [],
     searchValue: '',
-    sort: 'VoteNum'
+    sort: 'Popular'
   };
   componentWillMount() {
     this.resetComponent();
@@ -41,14 +54,6 @@ class Landing extends Component {
     this.props.handleSubmit(this.state.searchValue);
     this.props.history.push('/polls');
   };
-  sortPollList(pollList) {
-    return pollList.sort((a, b) => {
-      if (this.state.isSortByDate) {
-        return new Date(b.postDate) - new Date(a.postDate);
-      }
-      return b.voteNum - a.voteNum;
-    });
-  }
 
   handleSearchChange = (event, { value }) => {
     this.setState({ searchLoading: true, searchValue: value });
@@ -56,7 +61,7 @@ class Landing extends Component {
     setTimeout(() => {
       if (this.state.searchValue.length < 1) return this.resetComponent();
 
-      const pollList = this.props.allPolls.polls ? this.props.allPolls.polls : [];
+      const pollList = this.props.allPolls && this.props.allPolls.polls ? this.props.allPolls.polls : [];
       const filterList = pollList
         .filter(poll => `${poll.title}`.toUpperCase().indexOf(this.state.searchValue.toUpperCase()) >= 0)
         .map(poll => (({ title, voteNum }) => ({ title, price: `${voteNum} votes` }))(poll));
@@ -68,11 +73,32 @@ class Landing extends Component {
     }, 500);
   };
   handleResultSelect = (event, { result }) => this.setState({ searchValue: result.title });
+  handleItemClick = (event, { name }) => this.setState({ sort: name });
+  sortPollList(pollList) {
+    return pollList.sort((a, b) => {
+      if (this.state.sort === 'New') {
+        return new Date(b.postDate) - new Date(a.postDate);
+      }
+      return b.voteNum - a.voteNum;
+    });
+  }
   render() {
     const searchButton = this.state.searchValue ? 'Search' : 'Browse All';
+    let pollList;
+    if (!this.props.allPolls || !this.props.allPolls.polls) {
+      pollList = [];
+    } else {
+      pollList = this.props.allPolls.polls.slice();
+      if (this.state.sort === 'Random') {
+        pollList = shuffle(pollList).slice(0, 5);
+      } else {
+        pollList = this.sortPollList(pollList).slice(0, 5);
+      }
+    }
+
     return (
-      <div className="landing">
-        <Segment inverted textAlign="center">
+      <div className="pageElement">
+        <div className="landingContainer">
           <AppHeader isLanding noSearch />
           <div
             style={{
@@ -83,7 +109,7 @@ class Landing extends Component {
             }}
           >
             <Container text>
-              <Header as="h1" content="Welcome to Voting App" inverted />
+              <Header inverted as="h1" content="Welcome to Voting App" textAlign="center" />
               <Form onSubmit={this.goToSearch}>
                 <Form.Group
                   inline
@@ -101,15 +127,29 @@ class Landing extends Component {
                     value={this.state.searchValue}
                     aligned="right"
                     loading={this.state.searchLoading}
-                    input={{ icon: 'search', iconPosition: 'left' }}
+                    input={{ icon: 'search', iconPosition: 'left', placeholder: 'Search Polls...' }}
                   />
-                  <Button style={{ marginLeft: '10px' }}>{searchButton}</Button>
+                  <Button positive size="big" style={{ marginLeft: '10px' }}>
+                    {searchButton}
+                  </Button>
                 </Form.Group>
               </Form>
             </Container>
           </div>
-          <div style={{ height: 60 }} />
-        </Segment>
+        </div>
+        <Menu pointing secondary color="grey" style={{ marginTop: '0px' }}>
+          <Container>
+            <Menu.Item name="Popular" active={this.state.sort === 'Popular'} onClick={this.handleItemClick} />
+            <Menu.Item name="New" active={this.state.sort === 'New'} onClick={this.handleItemClick} />
+            <Menu.Item name="Random" active={this.state.sort === 'Random'} onClick={this.handleItemClick} />
+          </Container>
+        </Menu>
+        <Container className="pageBody">
+          <List selection size="big" verticalAlign="middle">
+            {pollList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}
+          </List>
+        </Container>
+        <Footer />
       </div>
     );
   }
