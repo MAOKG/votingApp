@@ -100,25 +100,11 @@ class Landing extends Component {
       <div className="pageElement">
         <div className="landingContainer">
           <AppHeader isLanding noSearch />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 500
-            }}
-          >
+          <div className="landingImage">
             <Container text>
-              <Header inverted as="h1" content="Welcome to Voting App" textAlign="center" />
+              <Header inverted as="h1" content="Welcome to Voting App" textAlign="center" className="landingHeader" />
               <Form onSubmit={this.goToSearch}>
-                <Form.Group
-                  inline
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
+                <Form.Group inline className="landingFormGroup">
                   <Search
                     size="big"
                     onSearchChange={this.handleSearchChange}
@@ -129,7 +115,7 @@ class Landing extends Component {
                     loading={this.state.searchLoading}
                     input={{ icon: 'search', iconPosition: 'left', placeholder: 'Search Polls...' }}
                   />
-                  <Button positive size="big" style={{ marginLeft: '10px' }}>
+                  <Button positive size="big" className="landingButton">
                     {searchButton}
                   </Button>
                 </Form.Group>
@@ -137,7 +123,7 @@ class Landing extends Component {
             </Container>
           </div>
         </div>
-        <Menu pointing secondary color="grey" style={{ marginTop: '0px' }}>
+        <Menu pointing secondary color="grey" className="landingListMenu">
           <Container>
             <Menu.Item
               name="Popular"
@@ -166,7 +152,7 @@ class Landing extends Component {
             />
           </Container>
         </Menu>
-        <Segment basic style={{ marginTop: '0px' }} loading={!this.props.allPolls} className="pageBody">
+        <Segment basic className="landingListSegment pageBody" loading={!this.props.allPolls}>
           <Container>
             <List selection size="big" verticalAlign="middle">
               {pollList.map(poll => <ShowCard className="center" key={poll._id} {...poll} />)}

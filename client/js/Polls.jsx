@@ -153,18 +153,7 @@ class Index extends Component {
           );
         }
         if (filterList.length < 1) {
-          renderContent = (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 450
-              }}
-            >
-              {noPollButton}
-            </div>
-          );
+          renderContent = <div className="pollNotFound">{noPollButton}</div>;
         } else {
           renderContent = (
             <div>

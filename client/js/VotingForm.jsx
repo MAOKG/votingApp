@@ -131,7 +131,7 @@ class VotingForm extends Component {
     const textArea = this.state.isExtraOption ? extraInput : '';
 
     return (
-      <Form size="massive" error={!!this.state.error} onSubmit={this.onSubmit}>
+      <Form size="massive" error={!!this.state.error} onSubmit={this.onSubmit} className="formWidth">
         <Message error content={this.state.error} />
         {optionRadios}
         {userOption}

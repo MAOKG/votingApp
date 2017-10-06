@@ -7,7 +7,7 @@ import { Message, Dimmer, Loader, List, Container } from 'semantic-ui-react';
 import UserPollCard from './UserPollCard';
 import Header from './Header';
 import Footer from './Footer';
-import { fetchAllPolls } from './actionCreators';
+import { fetchAllPolls, setAddPollModal } from './actionCreators';
 
 class UserPolls extends Component {
   state = {
@@ -22,7 +22,8 @@ class UserPolls extends Component {
   props: {
     user: User,
     userPolls: Polls,
-    getPolls: Function
+    getPolls: Function,
+    toggleAddPollModal: Function
   };
   renderContent() {
     if (this.props.user) {
@@ -30,16 +31,42 @@ class UserPolls extends Component {
         if (this.props.userPolls.error) {
           return <Message error content={this.props.userPolls.error} />;
         } else if (this.props.userPolls.polls) {
+          const filterList = this.props.userPolls.polls.filter(poll => poll.author.id === this.props.user._id);
+          let userPolls;
+          if (filterList.length < 1) {
+            userPolls = (
+              <div className="userNoPoll">
+                <h2>
+                  {' '}
+                  You do not own any polls, click{' '}
+                  <a
+                    className="modalSwitch"
+                    aria-pressed="true"
+                    tabIndex="0"
+                    role="button"
+                    onClick={() => {
+                      this.props.toggleAddPollModal(true);
+                    }}
+                  >
+                    here
+                  </a>{' '}
+                  to create one
+                </h2>
+              </div>
+            );
+          } else {
+            userPolls = (
+              <List divided size="big" verticalAlign="middle">
+                {filterList.map(poll => <UserPollCard key={poll._id} poll={poll} />)}
+              </List>
+            );
+          }
           return (
             <Container>
               <div className="centerElement">
                 <h1>My Polls</h1>
               </div>
-              <List divided size="big" verticalAlign="middle">
-                {this.props.userPolls.polls
-                  .filter(poll => poll.author.id === this.props.user._id)
-                  .map(poll => <UserPollCard key={poll._id} poll={poll} />)}
-              </List>
+              {userPolls}
             </Container>
           );
         }
@@ -78,6 +105,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch: Function) => ({
   getPolls() {
     dispatch(fetchAllPolls());
+  },
+  toggleAddPollModal(isOpen: boolean) {
+    dispatch(setAddPollModal(isOpen));
   }
 });
 

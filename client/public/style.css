@@ -1,14 +1,6 @@
-/*Login and Signup form modal*/
+/*=================Login and Signup form modal===================*/
 .Modal {
-  /*  width: 600px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  outline: none;*/
   padding: 25px;
-  /*  overflow: auto;
-  background: white;*/
 }
 .modalHeader {
   margin: 20px 0px 30px 0px !important;
@@ -27,7 +19,7 @@ a.disabled {
   cursor: default;
 }
 
-/*Polllist*/
+/* ============================Polllist===================*/
 .hideItem {
   display: block;
 }
@@ -38,15 +30,7 @@ a.disabled {
   align-items: center;
 }
 
-.pollList {
-  clear: both;
-}
-
-.listItems {
-  min-height: 450px;
-}
-
-/*Page element*/
+/*=========================Page element========================== */
 .pageElement {
   position: absolute;
   width: 100%;
@@ -56,17 +40,6 @@ a.disabled {
   display: flex;
   flex-direction: column;
 }
-
-/*Header Element #c0c0c0*/
-/*.headerElement {
-    border-top: 2px solid grey;
-  border-bottom: 2px solid #c0c0c0;
-}*/
-
-/*.Home:hover {
-  background-color: #767676 !important;
-  text-decoration-color: none !important;
-}*/
 
 /*Footer element*/
 .footerContainer {
@@ -96,42 +69,90 @@ a.disabled {
 .pageHeader h1 {
   font-size: 40px;
 }
-
-/*Poll detail voting form*/
-.votingExtraInput {
-  max-width: 500px;
-}
-
-.tweetButton {
-  margin-top: 10px;
-}
-
 /*Page Body*/
 .pageBody {
   padding: 20px 0;
   flex: 1;
 }
 
-/*New Poll Form*/
+/*=============================Poll detail voting form==========================*/
+.votingExtraInput {
+  max-width: 350px;
+}
+
+.tweetButton {
+  margin-top: 10px;
+}
+.formWidth {
+  width: 350px;
+}
+
+/*===============================New Poll Form==============================*/
 .newPollSubmit {
   float: right;
 }
 
-/*Landing page*/
+/*==========================Landing Page ====================*/
 .landingContainer {
-/*  position: relative;
+  /*  position: relative;
   width: 100%;
   height: 100vh;*/
   background-image: url(./img/landingMin.jpg);
   background-size: cover;
   background-position: center;
-/*  display: flex;
+  /*  display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: #333;*/
 }
+.landingImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+}
+.landingButton {
+  margin-left: 10px !important;
+}
+.landingHeader {
+  font-size: 40px !important;
+}
+.landingFormGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.landingListMenu {
+  margin-top: 0px !important;
+}
+.landingListSegment {
+  margin-top: 0px !important;
+}
 
+/*=====================Polls Page ==================*/
+.listItems {
+  min-height: 450px;
+}
+.pollList {
+  clear: both;
+}
+.pollNotFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+}
+
+/*================User Poll =======================*/
+.userNoPoll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+/*===========Responsive===========================*/
 @media only screen and (max-width: 767px) {
   .Modal {
     width: 100%;
@@ -148,85 +169,3 @@ a.disabled {
     margin-left: 10px !important;
   }
 }
-
-/*Landing Page*/
-
-/*#landing-header {
-  z-index: 1;
-  position: relative;
-  text-align: center;
-  padding-top: 40vh;
-}
-
-#landing-header h1 {
-  color: #fff;
-  font-size: 40px;
-}
-
-.slideshow {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.slideshow li {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-size: cover;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  opacity: 0;
-  z-index: 0;
-  animation: imageAnimation 50s linear infinite;
-}
-
-.slideshow li:nth-child(1) {
-  background-image: url(./img/landing1.jpg);
-}
-.slideshow li:nth-child(2) {
-  background-image: url(./img/landing2.jpg);
-  animation-delay: 10s;
-}
-.slideshow li:nth-child(3) {
-  background-image: url(./img/landing3.jpg);
-  animation-delay: 20s;
-}
-.slideshow li:nth-child(4) {
-  background-image: url(./img/landing4.jpg);
-  animation-delay: 30s;
-}
-.slideshow li:nth-child(5) {
-  background-image: url(./img/landing5.jpg);
-  animation-delay: 40s;
-}
-
-@keyframes imageAnimation {
-  0% {
-    opacity: 0;
-    animation-timing-function: ease-in;
-  }
-  10% {
-    opacity: 1;
-    animation-timing-function: ease-out;
-  }
-  20% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 0;
-  }
-}
-/* Older browser support - .no-cssanimations class added by modernizr */
-.no-cssanimations .slideshow li {
-  opacity: 1;
-}
-*/

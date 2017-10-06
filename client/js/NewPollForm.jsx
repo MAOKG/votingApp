@@ -157,7 +157,7 @@ class NewPollForm extends Component {
             </Form.Field>
           ))}
           <Form.Group inline>
-            <label htmlFor="userOption">Can user add new option?</label>
+            <label htmlFor="userOption">Can voter add new option?</label>
             <Form.Radio
               label="Yes"
               value="yes"
