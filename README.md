@@ -4,18 +4,18 @@
 
 ## User Stories
 
-- User can log in or sign up using local account or Google account
-- Authenticated user can link and unlink local and Google account
-- As an unauthenticated user, I can see everyone's polls
-- As an unauthenticated user, I can sort polls by popolarity or date
-- As an unauthenticated user, I search polls by title and author
-- As an authenticated user, I can vote on everyone's polls
-- As an authenticated user, I can create a poll with any number of possible options
-- As an authenticated user, I can control whether voters can add new options to my poll
-- As an authenticated user, I can delete polls that I decide I don't want anymore
-- As an authenticated user, I can delete polls that I decide I don't want anymore
-- As an authenticated user, I can see the result of a poll in chart form after I voted
-- As an authenticated user, I can see the result of a poll in chart form after I voted
+**As an unauthenticatied user**
+- I can log in or sign up using local account or Google account
+- I can see everyone's polls
+- I can sort polls by popolarity or date
+- I search polls by title and author
+**As an authenticatied user**
+- I can link and unlink local and Google account
+- I can vote on everyone's polls
+- I can create a poll with any number of possible options
+- I can control whether voters can add new options to my poll
+- I can delete polls that I decide I don't want anymore
+- I can see the result of a poll in chart form after I voted
 
 ## Build With
 
