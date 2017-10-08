@@ -9,6 +9,7 @@
 - I can see everyone's polls
 - I can sort polls by popolarity or date
 - I search polls by title and author
+
 **As an authenticatied user**
 - I can link and unlink local and Google account
 - I can vote on everyone's polls
