@@ -9,7 +9,7 @@ const Footer = () => (
       <Menu.Item>
         <p>
           Made with <Icon name="empty heart" /> by{' '}
-          <a href="https://github.com/MAOKG" target="blank" className="border">
+          <a href="https://www.maosen-chen.me" target="blank" className="border">
             {' '}
             Maosen
           </a>
